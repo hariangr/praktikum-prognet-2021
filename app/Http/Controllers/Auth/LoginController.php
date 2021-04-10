@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Auth;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -52,23 +53,23 @@ class LoginController extends Controller
     public function adminLogin(Request $request)
     {
         $this->validate($request, [
-            'email'   => 'required|email',
+            'email'   => 'required',
             'password' => 'required|min:6'
         ]);
 
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard('admin')->attempt(['username' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
             return redirect()->intended('/admin');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
 
-    public function showBloggerLoginForm()
+    public function showUserLoginForm()
     {
-        return view('auth.login', ['url' => 'blogger']);
+        return view('auth.login', ['url' => 'user']);
     }
 
-    public function bloggerLogin(Request $request)
+    public function userLogin(Request $request)
     {
         $this->validate($request, [
             'email'   => 'required|email',
@@ -77,8 +78,21 @@ class LoginController extends Controller
 
         if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
-            return redirect()->intended('/blogger');
+            return redirect()->intended('/home');
         }
         return back()->withInput($request->only('email', 'remember'));
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        Auth::guard('user')->logout();
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+        Session::flush();
+
+        return redirect('/');
     }
 }

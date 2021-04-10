@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +23,23 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/login', function () {
+    return redirect(route('userLoginForm'));
+})->name('login');
+
+Route::get('/login/admin', [LoginController::class, 'showAdminLoginForm']);
+Route::get('/login/user', [LoginController::class, 'showUserLoginForm'])->name('userLoginForm');
+Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm']);
+Route::get('/register/user', [RegisterController::class, 'showUserRegisterForm']);
+
+Route::post('/login/admin', [LoginController::class, 'adminLogin']);
+Route::post('/login/user', [LoginController::class, 'userLogin']);
+Route::post('/register/admin', [LoginController::class, 'createAdmin']);
+Route::post('/register/user', [LoginController::class, 'createUser']);
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware(['auth:user'])->name('home');
+
+Route::get('/admin', function (Request $request) {
+    return view('admin.panel');
+})->middleware(['auth:admin'])->name('admin_home');

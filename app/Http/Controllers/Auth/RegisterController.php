@@ -42,7 +42,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
         $this->middleware('guest:admin');
-        // $this->middleware('guest:user');
+        $this->middleware('guest:user');
     }
 
     /**
@@ -71,9 +71,9 @@ class RegisterController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showBloggerRegisterForm()
+    public function showUserRegisterForm()
     {
-        return view('auth.register', ['url' => 'blogger']);
+        return view('auth.register', ['url' => 'user']);
     }
 
     /**
@@ -111,14 +111,14 @@ class RegisterController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    // protected function createBlogger(Request $request)
-    // {
-    //     $this->validator($request->all())->validate();
-    //     Blogger::create([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //     ]);
-    //     return redirect()->intended('login/blogger');
-    // }
+    protected function createUser(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        return redirect()->intended('login/user');
+    }
 }
