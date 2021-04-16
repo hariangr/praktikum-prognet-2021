@@ -117,6 +117,8 @@ class RegisterController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'profile_image' => "/img/defaultavatar.png",
+            'status' => '0',
             'password' => Hash::make($request->password),
         ]);
         return redirect()->intended('login/user');

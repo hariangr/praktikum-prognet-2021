@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/login', function () {
     return redirect(route('userLoginForm'));
@@ -34,8 +34,8 @@ Route::get('/register/user', [RegisterController::class, 'showUserRegisterForm']
 
 Route::post('/login/admin', [LoginController::class, 'adminLogin']);
 Route::post('/login/user', [LoginController::class, 'userLogin']);
-Route::post('/register/admin', [LoginController::class, 'createAdmin']);
-Route::post('/register/user', [LoginController::class, 'createUser']);
+Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
+Route::post('/register/user', [RegisterController::class, 'createUser']);
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware(['auth:user'])->name('home');
