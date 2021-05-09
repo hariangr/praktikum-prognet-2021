@@ -43,3 +43,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->midd
 Route::get('/admin', function (Request $request) {
     return view('admin.panel');
 })->middleware(['auth:admin'])->name('admin_home');
+
+Route::get('/admindashboard', function () {
+    return view('dashboard-admin');
+});
+
+
+Route::resource('/adminproduct','App\Http\Controllers\ProductController');
+Route::resource('/admincourier','App\Http\Controllers\CourierController');
+Route::resource('/adminproductcategories','App\Http\Controllers\ProductCategoriesController');
