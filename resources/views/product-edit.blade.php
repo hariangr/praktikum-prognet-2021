@@ -6,7 +6,7 @@
 
 <div class="jumbotron text-center">
   <h1>Admin Products</h1>
-  <h2>Tambah Produk</h2> 
+  <h2>Edit Produk</h2> 
 </div>
 
 @endsection

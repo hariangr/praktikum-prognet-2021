@@ -17,7 +17,7 @@
   @csrf
   <div class="form-group">
     <label for="nama">Nama Courier:</label>
-    <input type="text" class="form-control" id="courier" placeholder="Nama Courier" name="courier" required>
+    <input type="text" class="form-control" id="courier" placeholder="Masukkan Nama Courier" name="courier" required>
   </div>
 
   <p><button type="submit" class="btn btn-success">Submit</button></p>

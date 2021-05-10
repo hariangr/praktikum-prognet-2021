@@ -14,7 +14,8 @@ class ProductCategoriesController extends Controller
      */
     public function index()
     {
-        return view('product_categories-list');
+        $product_categories = Product_categories::all();
+        return view('product_categories-list',compact(['product_categories']));
     }
 
     /**
@@ -24,7 +25,7 @@ class ProductCategoriesController extends Controller
      */
     public function create()
     {
-        //
+        return view('product_categories-new');
     }
 
     /**
@@ -35,7 +36,12 @@ class ProductCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product_categories = new Product_categories;
+        $product_categories->category_name = $request->category_name;
+        
+        $product_categories->save();
+       
+        return redirect('/adminproductcategories')->with('message', 'Data Kategori Produk Berhasil Ditambahkan');
     }
 
     /**
@@ -57,7 +63,7 @@ class ProductCategoriesController extends Controller
      */
     public function edit(Product_categories $product_categories)
     {
-        //
+        return view('product_categories-edit',compact(['product_categories']));
     }
 
     /**
@@ -69,7 +75,11 @@ class ProductCategoriesController extends Controller
      */
     public function update(Request $request, Product_categories $product_categories)
     {
-        //
+        $product_categories->category_name = $request->category_name;
+        
+        $product_categories->save();
+       
+        return redirect('/adminproductcategories')->with('message', 'Data Kategori Produk Berhasil Diupdate');
     }
 
     /**
@@ -78,8 +88,9 @@ class ProductCategoriesController extends Controller
      * @param  \App\Models\Product_categories  $product_categories
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product_categories $product_categories)
+    public function destroy($id)
     {
-        //
+        Product_categories::where('id',$id)->delete();
+        return redirect('/adminproductcategories')->with('message', 'Data Kategori Produk Berhasil Dihapus');
     }
 }

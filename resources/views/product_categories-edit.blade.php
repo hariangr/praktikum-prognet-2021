@@ -5,26 +5,26 @@
 @section('page-title')
 
 <div class="jumbotron text-center">
-  <h1>Admin Courier</h1>
-  <h2>Edit Courier</h2> 
+  <h1>Admin Product Categories</h1>
+  <h2>Edit Kategori Produk</h2> 
 </div>
 
 @endsection
 
 
 @section('page-contents')
-<form action="/admincourier/{{$courier->id}}" method="PUT" class="needs-validated" novalidate>
+<form action="/adminproductcategories" method="PUT" class="needs-validated">
   @csrf
   @method('PUT')
   <div class="form-group">
-    <label for="nama">Nama Courier:</label>
-    <input type="text" class="form-control" id="courier" name="courier" value="{{$courier->courier}}" required>
+    <label for="nama">Nama Kategori Produk:</label>
+    <input type="text" class="form-control" id="category_name" placeholder="Masukkan Nama Kategori Produk" name="category_name" value="{{$product_categories->category_name}}" required>
   </div>
 
   <p><button type="submit" class="btn btn-success">Submit</button></p>
 </form> 
 
-<button type="button" class="btn btn-primary" onclick="location.href='/admincourier'">Kembali</button>
+<button type="button" class="btn btn-primary" onclick="location.href='/adminproductcategories'">Kembali</button>
 
 
 <script>

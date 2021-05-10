@@ -13,7 +13,7 @@
 
 @section('page-contents')
     <p>
-        <button type="button" class="btn btn-primary" onclick="location.href='/adminproduct/create'">Tambah Kategori Produk</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='/adminproductcategories/create'">Tambah Kategori Produk</button>
     </p>
     <p>
         <table class="table table-hover">
@@ -25,7 +25,20 @@
                 </tr>
             </thead>
             <tbody>
-               
+                @foreach($product_categories as $pc)
+                    <tr>
+                        <td>{{$loop->index+1}}</td>
+                        <td>{{$pc->category_name}}</td>
+                        <td>
+                            <form action="/adminproductcategories/{{$pc->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-info" onclick="location.href='/adminproductcategories/{{$pc->id}}/edit'">Edit</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </p>
