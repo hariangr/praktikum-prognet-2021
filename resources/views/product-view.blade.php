@@ -6,57 +6,67 @@
 
 <div class="jumbotron text-center">
   <h1>Admin Products</h1>
-  <h2>Tambah Produk</h2> 
+  <h2>View Produk</h2> 
 </div>
 
 @endsection
 
 @section('page-contents')
-<form action="/adminproduct" method="POST" class="needs-validated" enctype="multipart/form-data">
+
+<form action="/adminproduct/{{$product->id}}" method="POST" class="needs-validated" enctype="multipart/form-data">
   @csrf
+  @method('PUT')
   <div class="form-group">
     <label for="nama">Nama Produk:</label>
-    <input type="text" class="form-control" id="product_name" placeholder="Masukkan Nama Produk" name="product_name" required>
+    <input type="text" class="form-control" id="product_name" placeholder="Masukkan Nama Produk" name="product_name" value="{{$product->product_name}}" readonly>
   </div>
 
   <div class="form-group">
     <label for="sel1">Kategori Produk:</label>
-    <select class="form-control" id="category_name" name="category_name">
+    <select class="form-control" id="category_name" name="category_name" disabled>
         @foreach($product_categories as $pc)
-        <option value="{{$pc->id}}">{{$pc->category_name}}</option>
+          <option value="{{$pc->id}}"
+            @if($pc->id == $product_category_details->category_id)
+              SELECTED
+            @endif>{{$pc->category_name}}
+          </option>
         @endforeach
     </select>
   </div>
 
   <div class="form-group">
     <label for="nama">Harga Produk:</label>
-    <input type="text" class="form-control" id="price" placeholder="Masukkan Harga Produk" name="price" required>
+    <input type="text" class="form-control" id="price"value="{{$product->price}}"  placeholder="Masukkan Harga Produk" name="price" readonly>
   </div>
   
   <div class="form-group">
     <label for="nama">Deskripsi Produk:</label>
-    <input type="text" class="form-control" id="description" placeholder="Masukkan Deskripsi Produk" name="description" required>
+    <input type="text" class="form-control" id="description"value="{{$product->description}}"  placeholder="Masukkan Deskripsi Produk" name="description" readonly>
   </div>
 
   <div class="form-group">
     <label for="nama">Rate Produk:</label>
-    <input type="text" class="form-control" id="product_rate" placeholder="Masukkan Rate Produk" name="product_rate" required>
+    <input type="text" class="form-control" id="product_rate"value="{{$product->product_rate}}"  placeholder="Masukkan Rate Produk" name="product_rate" readonly>
   </div>
 
   <div class="form-group">
     <label for="nama">Stok Produk:</label>
-    <input type="text" class="form-control" id="stock" placeholder="Masukkan Jumlah Stock Produk" name="stock" required>
+    <input type="text" class="form-control" id="stock"value="{{$product->stock}}"  placeholder="Masukkan Jumlah Stock Produk" name="stock" readonly>
   </div>
 
   <div class="form-group">
     <label for="nama">Berat Produk:</label>
-    <input type="text" class="form-control" id="weight" placeholder="Masukkan Berat Produk" name="weight" required>
+    <input type="text" class="form-control" id="weight"value="{{$product->weight}}"  placeholder="Masukkan Berat Produk" name="weight" readonly>
   </div>
 
   <div class="form-group">
-    <label for="nama">Foto Produk:</label>
-    <input type="file" class="form-control" id="image_name" placeholder="Masukkan Foto Produk" name="image_name" required>
+    <label for="">Foto Produk:</label>
   </div>
+
+  <div class="form-group">
+    <img src="{{ asset('img/'. $product_images->image_name)}}" height="10%" width="50%" alt="" srcset="">
+  </div>
+
 
   <p><button type="submit" class="btn btn-success">Submit</button></p>
 </form> 

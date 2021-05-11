@@ -22,10 +22,8 @@
                     <th>No</th>
                     <th>Nama Produk</th>
                     <th>Harga Produk</th>
-                    <th>Deskripsi Produk</th>
                     <th>Rate Produk</th>
                     <th>Stok Produk</th>
-                    <th>Berat Produk</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -35,14 +33,13 @@
                         <td>{{$loop->index+1}}</td>
                         <td>{{$p->product_name}}</td>
                         <td>{{$p->price}}</td>
-                        <td>{{$p->description}}</td>
                         <td>{{$p->product_rate}}</td>
                         <td>{{$p->stock}}</td>
-                        <td>{{$p->weight}}</td>
                         <td>
                             <form action="/adminproduct/{{$p->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
+                                <button type="button" class="btn btn-info" onclick="location.href='/adminproduct/{{$p->id}}'">View</button>
                                 <button type="button" class="btn btn-info" onclick="location.href='/adminproduct/{{$p->id}}/edit'">Edit</button>
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>

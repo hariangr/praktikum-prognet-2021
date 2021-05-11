@@ -74,9 +74,14 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Product $adminproduct)
     {
-        //
+        $product = $adminproduct;
+        $id = $product->id;
+        $product_images = Product_images::select('image_name')->where('product_id',$id)->first();
+        $product_categories = Product_categories::all();
+        $product_category_details = Product_category_details::select('category_id')->where('product_id',$id)->first();
+        return view('product-view',compact(['product','product_images','product_categories','product_category_details','id']));
     }
 
     /**
