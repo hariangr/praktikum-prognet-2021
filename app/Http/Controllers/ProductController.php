@@ -85,8 +85,9 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Product $adminproduct)
     {
+        $product = $adminproduct;
         $product_categories = Product_categories::all();
         $product_category_details = Product_category_details::all();
         return view('product-edit',compact(['product','product_categories','product_category_details']));
@@ -99,7 +100,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Product $adminproduct)
     {
         //
     }

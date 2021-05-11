@@ -50,7 +50,7 @@ class CourierController extends Controller
      * @param  \App\Models\Courier  $courier
      * @return \Illuminate\Http\Response
      */
-    public function show(Courier $courier)
+    public function show(Courier $admincourier)
     {
         //
     }
@@ -61,8 +61,9 @@ class CourierController extends Controller
      * @param  \App\Models\Courier  $courier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Courier $courier)
+    public function edit(Courier $admincourier)
     {
+        $courier = $admincourier;
         return view('courier-edit',compact(['courier']));
     }
 
@@ -73,8 +74,9 @@ class CourierController extends Controller
      * @param  \App\Models\Courier  $courier
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Courier $courier)
+    public function update(Request $request, Courier $admincourier)
     {
+        $courier = $admincourier;
         $courier->courier = $request->courier;
         
         $courier->save();

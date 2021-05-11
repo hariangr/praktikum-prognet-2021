@@ -61,8 +61,9 @@ class ProductCategoriesController extends Controller
      * @param  \App\Models\Product_categories  $product_categories
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product_categories $product_categories)
+    public function edit(Product_categories $adminproductcategory)
     {
+        $product_categories = $adminproductcategory;
         return view('product_categories-edit',compact(['product_categories']));
     }
 
@@ -73,8 +74,9 @@ class ProductCategoriesController extends Controller
      * @param  \App\Models\Product_categories  $product_categories
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product_categories $product_categories)
+    public function update(Request $request, Product_categories $adminproductcategory)
     {
+        $product_categories = $adminproductcategory;
         $product_categories->category_name = $request->category_name;
         
         $product_categories->save();

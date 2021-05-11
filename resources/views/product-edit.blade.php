@@ -12,11 +12,12 @@
 @endsection
 
 @section('page-contents')
+
 <form action="/adminproduct" method="POST" class="needs-validated" enctype="multipart/form-data">
   @csrf
   <div class="form-group">
     <label for="nama">Nama Produk:</label>
-    <input type="text" class="form-control" id="product_name" placeholder="Masukkan Nama Produk" name="product_name" required>
+    <input type="text" class="form-control" id="product_name" placeholder="Masukkan Nama Produk" name="product_name" value="{{$product->product_name}}" required>
   </div>
 
   <div class="form-group">
@@ -30,27 +31,27 @@
 
   <div class="form-group">
     <label for="nama">Harga Produk:</label>
-    <input type="text" class="form-control" id="price" placeholder="Masukkan Harga Produk" name="price" required>
+    <input type="text" class="form-control" id="price"value="{{$product->price}}"  placeholder="Masukkan Harga Produk" name="price" required>
   </div>
   
   <div class="form-group">
     <label for="nama">Deskripsi Produk:</label>
-    <input type="text" class="form-control" id="description" placeholder="Masukkan Deskripsi Produk" name="description" required>
+    <input type="text" class="form-control" id="description"value="{{$product->description}}"  placeholder="Masukkan Deskripsi Produk" name="description" required>
   </div>
 
   <div class="form-group">
     <label for="nama">Rate Produk:</label>
-    <input type="text" class="form-control" id="product_rate" placeholder="Masukkan Rate Produk" name="product_rate" required>
+    <input type="text" class="form-control" id="product_rate"value="{{$product->product_rate}}"  placeholder="Masukkan Rate Produk" name="product_rate" required>
   </div>
 
   <div class="form-group">
     <label for="nama">Stok Produk:</label>
-    <input type="text" class="form-control" id="stock" placeholder="Masukkan Jumlah Stock Produk" name="stock" required>
+    <input type="text" class="form-control" id="stock"value="{{$product->stock}}"  placeholder="Masukkan Jumlah Stock Produk" name="stock" required>
   </div>
 
   <div class="form-group">
     <label for="nama">Berat Produk:</label>
-    <input type="text" class="form-control" id="weight" placeholder="Masukkan Berat Produk" name="weight" required>
+    <input type="text" class="form-control" id="weight"value="{{$product->weight}}"  placeholder="Masukkan Berat Produk" name="weight" required>
   </div>
 
   <div class="form-group">
