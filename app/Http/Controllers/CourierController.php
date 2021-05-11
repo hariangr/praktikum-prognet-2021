@@ -76,10 +76,9 @@ class CourierController extends Controller
      */
     public function update(Request $request, Courier $admincourier)
     {
-        $courier = $admincourier;
-        $courier->courier = $request->courier;
+        $admincourier->courier = $request->courier;
         
-        $courier->save();
+        $admincourier->save();
        
         return redirect('/admincourier')->with('message', 'Data Courier Berhasil Diupdate');
     }

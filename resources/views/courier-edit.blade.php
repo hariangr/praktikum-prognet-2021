@@ -13,7 +13,7 @@
 
 
 @section('page-contents')
-<form action="/admincourier/{{$courier->id}}" method="PUT" class="needs-validated" novalidate>
+<form action="/admincourier/{{$courier->id}}" method="POST" class="needs-validated" novalidate>
   @csrf
   @method('PUT')
   <div class="form-group">

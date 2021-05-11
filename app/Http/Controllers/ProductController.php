@@ -88,9 +88,11 @@ class ProductController extends Controller
     public function edit(Product $adminproduct)
     {
         $product = $adminproduct;
+        $id = $product->id;
+        $product_images = Product_images::select('image_name')->where('product_id',$id)->first();
         $product_categories = Product_categories::all();
-        $product_category_details = Product_category_details::all();
-        return view('product-edit',compact(['product','product_categories','product_category_details']));
+        $product_category_details = Product_category_details::select('category_id')->where('product_id',$id)->first();
+        return view('product-edit',compact(['product','product_images','product_categories','product_category_details','id']));
     }
 
     /**
@@ -102,7 +104,34 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $adminproduct)
     {
-        //
+        $product = $adminproduct;
+        $product->product_name = $request->product_name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->product_rate = $request->product_rate;
+        $product->stock = $request->stock;
+        $product->weight = $request->weight;
+        $product->save();
+        
+        $id = $product->id;
+        $product_category_details = new Product_category_details;
+        Product_category_details::where('product_id',$id)->delete();
+        $product_category_details->product_id = $product->id;
+        $product_category_details->category_id = $request->category_name;
+        $product_category_details->save();
+
+        if(!empty($request->image_name)){
+            $file = $request->file('image_name');
+            $product_images = new Product_images;
+            Product_images::where('product_id',$id)->delete();
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+            return redirect('/adminproduct')->with('message', 'Data Produk Berhasil Ditambahkan');
+        }
+        
     }
 
     /**

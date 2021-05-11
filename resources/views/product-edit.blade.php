@@ -13,8 +13,9 @@
 
 @section('page-contents')
 
-<form action="/adminproduct" method="POST" class="needs-validated" enctype="multipart/form-data">
+<form action="/adminproduct/{{$product->id}}" method="POST" class="needs-validated" enctype="multipart/form-data">
   @csrf
+  @method('PUT')
   <div class="form-group">
     <label for="nama">Nama Produk:</label>
     <input type="text" class="form-control" id="product_name" placeholder="Masukkan Nama Produk" name="product_name" value="{{$product->product_name}}" required>
@@ -24,7 +25,11 @@
     <label for="sel1">Kategori Produk:</label>
     <select class="form-control" id="category_name" name="category_name">
         @foreach($product_categories as $pc)
-        <option value="{{$pc->id}}">{{$pc->category_name}}</option>
+          <option value="{{$pc->id}}"
+            @if($pc->id == $product_category_details->category_id)
+              SELECTED
+            @endif>{{$pc->category_name}}
+          </option>
         @endforeach
     </select>
   </div>
@@ -56,8 +61,13 @@
 
   <div class="form-group">
     <label for="nama">Foto Produk:</label>
-    <input type="file" class="form-control" id="image_name" placeholder="Masukkan Foto Produk" name="image_name" required>
+    <input type="file" class="form-control" id="image_name" placeholder="Masukkan Foto Produk" name="image_name" >
   </div>
+
+  <div class="form-group">
+    <img src="{{ asset('img/'. $product_images->image_name)}}" height="10%" width="50%" alt="" srcset="">
+  </div>
+
 
   <p><button type="submit" class="btn btn-success">Submit</button></p>
 </form> 

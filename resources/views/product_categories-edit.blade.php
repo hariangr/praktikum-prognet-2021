@@ -13,7 +13,7 @@
 
 
 @section('page-contents')
-<form action="/adminproductcategories" method="PUT" class="needs-validated">
+<form action="/adminproductcategories/{{$product_categories->id}}" method="POST" class="needs-validated" novalidate>
   @csrf
   @method('PUT')
   <div class="form-group">
