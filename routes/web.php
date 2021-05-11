@@ -49,6 +49,6 @@ Route::get('/admindashboard', function () {
 });
 
 
-Route::resource('/adminproduct','App\Http\Controllers\ProductController');
-Route::resource('/admincourier','App\Http\Controllers\CourierController');
-Route::resource('/adminproductcategories','App\Http\Controllers\ProductCategoriesController');
+Route::resource('/adminproduct','App\Http\Controllers\ProductController')->middleware(['auth:admin']);
+Route::resource('/admincourier','App\Http\Controllers\CourierController')->middleware(['auth:admin']);
+Route::resource('/adminproductcategories','App\Http\Controllers\ProductCategoriesController')->middleware(['auth:admin']);
