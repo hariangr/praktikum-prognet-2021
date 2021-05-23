@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Product_categories;
 use App\Models\Product_category_details;
 use App\Models\Product_images;
+use App\Models\discount;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File; 
@@ -52,18 +53,65 @@ class ProductController extends Controller
         $product->weight = $request->weight;
         $product->save();
         
-        $product_category_details = new Product_category_details;
-        $product_category_details->product_id = $product->id;
-        $product_category_details->category_id = $request->category_name;
-        $product_category_details->save();
-     
-        $file = $request->file('image_name');
-        $product_images = new Product_images;
-        $product_images->product_id = $product->id;
-        $product_images->image_name = $file->getClientOriginalName();
-        $product_images->save();
+        if (is_array($request->category_id) || is_object($request->category_id)){
+            foreach($request->category_id as $category_id){
+                $product_category_details = new Product_category_details;
+                $product_category_details->product_id = $product->id;
+                $product_category_details->category_id = $category_id;
+                $product_category_details->save();
+            }
+        }
+    
+        if(!empty($request->image_name1)){
+            $file = $request->file('image_name1');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
 
-        $file->move('img',$file->getClientOriginalName());
+        if(!empty($request->image_name2)){
+            $file = $request->file('image_name2');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
+
+        if(!empty($request->image_name3)){
+            $file = $request->file('image_name3');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
+
+        if(!empty($request->image_name4)){
+            $file = $request->file('image_name4');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
+
+        if(!empty($request->image_name5)){
+            $file = $request->file('image_name5');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
+
 
         return redirect('/adminproduct')->with('message', 'Data Produk Berhasil Ditambahkan');
     }
@@ -80,9 +128,23 @@ class ProductController extends Controller
         $id = $product->id;
         $product_images = Product_images::select('image_name')->where('product_id',$id)->first();
         $product_categories = Product_categories::all();
-        $product_category_details = Product_category_details::select('category_id')->where('product_id',$id)->first();
+        $product_category_details = Product_category_details::where('product_id',$id)->pluck('category_id')->toArray();
         return view('product-view',compact(['product','product_images','product_categories','product_category_details','id']));
+        
     }
+
+    /*
+        $product = $adminproduct;
+        $id = $product->id;
+        $product_images_id = Product_images::select('id')->where('product_id',$id)->first();
+        $pimid = $product_images_id->id;
+        for ($pimid; $pimid<18 ; $pimid++){
+            $product_images = Product_images::select('image_name')->where('product_id',$id)->find($pimid);
+        }
+        $product_categories = Product_categories::all();
+        $product_category_details = Product_category_details::where('product_id',$id)->pluck('category_id')->toArray();
+        return view('product-view',compact(['product','product_images','product_categories','product_category_details','id']));
+    } *
 
     /**
      * Show the form for editing the specified resource.
@@ -96,7 +158,7 @@ class ProductController extends Controller
         $id = $product->id;
         $product_images = Product_images::select('image_name')->where('product_id',$id)->first();
         $product_categories = Product_categories::all();
-        $product_category_details = Product_category_details::select('category_id')->where('product_id',$id)->first();
+        $product_category_details = Product_category_details::where('product_id',$id)->pluck('category_id')->toArray();
         return view('product-edit',compact(['product','product_images','product_categories','product_category_details','id']));
     }
 
@@ -117,25 +179,74 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->weight = $request->weight;
         $product->save();
-        
-        $id = $product->id;
-        $product_category_details = new Product_category_details;
-        Product_category_details::where('product_id',$id)->delete();
-        $product_category_details->product_id = $product->id;
-        $product_category_details->category_id = $request->category_name;
-        $product_category_details->save();
 
-        if(!empty($request->image_name)){
-            $file = $request->file('image_name');
+        Product_category_details::where('product_id',$product->id)->delete();
+        if(!empty($request->category_id)){
+            foreach($request->category_id as $category_id){
+                $product_category_details = new Product_category_details;
+                $product_category_details->product_id = $product->id;
+                $product_category_details->category_id = $category_id;
+                $product_category_details->save();
+            }
+        }
+
+        if(!empty($request->image_name1)){
+            $file = $request->file('image_name1');
             $product_images = new Product_images;
-            Product_images::where('product_id',$id)->delete();
+            Product_images::where('product_id',$product->id)->delete();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
     
             $file->move('img',$file->getClientOriginalName());
-            return redirect('/adminproduct')->with('message', 'Data Produk Berhasil Ditambahkan');
         }
+
+        if(!empty($request->image_name2)){
+            $file = $request->file('image_name2');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
+
+        if(!empty($request->image_name3)){
+            $file = $request->file('image_name3');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
+
+        if(!empty($request->image_name4)){
+            $file = $request->file('image_name4');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
+
+        if(!empty($request->image_name5)){
+            $file = $request->file('image_name5');
+            $product_images = new Product_images;
+            $product_images->product_id = $product->id;
+            $product_images->image_name = $file->getClientOriginalName();
+            $product_images->save();
+    
+            $file->move('img',$file->getClientOriginalName());
+        }
+
+
+
+
+
+
+        return redirect('/adminproduct')->with('message', 'Data Produk Berhasil Ditambahkan');
         
     }
 

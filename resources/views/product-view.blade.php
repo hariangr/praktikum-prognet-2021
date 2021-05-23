@@ -22,16 +22,18 @@
   </div>
 
   <div class="form-group">
-    <label for="sel1">Kategori Produk:</label>
-    <select class="form-control" id="category_name" name="category_name" disabled>
-        @foreach($product_categories as $pc)
-          <option value="{{$pc->id}}"
-            @if($pc->id == $product_category_details->category_id)
-              SELECTED
-            @endif>{{$pc->category_name}}
-          </option>
-        @endforeach
-    </select>
+    <label for="permasalahan_kulit">Kategori Produk:</label>
+    @foreach($product_categories as $pc)
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" value="{{$pc->id}}" name="category_id[]" 
+            @if(in_array($pc->id,$product_category_details))
+              CHECKED
+            @endif
+          disabled>{{$pc->category_name}}
+        </label>
+      </div>
+    @endforeach
   </div>
 
   <div class="form-group">
@@ -64,9 +66,8 @@
   </div>
 
   <div class="form-group">
-    <img src="{{ asset('img/'. $product_images->image_name)}}" height="10%" width="50%" alt="" srcset="">
+    <img src="{{ asset('img/'. $product_images->image_name)}}" height="5%" width="25%" alt="" srcset="">
   </div>
-
 
   <p><button type="submit" class="btn btn-success">Submit</button></p>
 </form> 

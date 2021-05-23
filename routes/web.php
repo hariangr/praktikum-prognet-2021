@@ -52,3 +52,4 @@ Route::get('/admindashboard', function () {
 Route::resource('/adminproduct','App\Http\Controllers\ProductController')->middleware(['auth:admin']);
 Route::resource('/admincourier','App\Http\Controllers\CourierController')->middleware(['auth:admin']);
 Route::resource('/adminproductcategories','App\Http\Controllers\ProductCategoriesController')->middleware(['auth:admin']);
+Route::resource('/admindiscount','App\Http\Controllers\DiscountController')->middleware(['auth:admin']);

@@ -20,12 +20,14 @@
   </div>
 
   <div class="form-group">
-    <label for="sel1">Kategori Produk:</label>
-    <select class="form-control" id="category_name" name="category_name">
-        @foreach($product_categories as $pc)
-        <option value="{{$pc->id}}">{{$pc->category_name}}</option>
-        @endforeach
-    </select>
+    <label for="permasalahan_kulit">Kategori Produk:</label>
+    @foreach($product_categories as $pc)
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" value="{{$pc->id}}" name="category_id[]">{{$pc->category_name}}
+        </label>
+      </div>
+    @endforeach
   </div>
 
   <div class="form-group">
@@ -54,8 +56,28 @@
   </div>
 
   <div class="form-group">
-    <label for="nama">Foto Produk:</label>
-    <input type="file" class="form-control" id="image_name" placeholder="Masukkan Foto Produk" name="image_name" required>
+    <label for="nama">Foto Produk 1:</label>
+    <input type="file" class="form-control" id="image_name1" placeholder="Masukkan Foto Produk" name="image_name1" required>
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Foto Produk 2:</label>
+    <input type="file" class="form-control" id="image_name2" placeholder="Masukkan Foto Produk" name="image_name2">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Foto Produk 3:</label>
+    <input type="file" class="form-control" id="image_name3" placeholder="Masukkan Foto Produk" name="image_name3">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Foto Produk 4:</label>
+    <input type="file" class="form-control" id="image_name4" placeholder="Masukkan Foto Produk" name="image_name4">
+  </div>
+
+  <div class="form-group">
+    <label for="nama">Foto Produk 5:</label>
+    <input type="file" class="form-control" id="image_name5" placeholder="Masukkan Foto Produk" name="image_name5">
   </div>
 
   <p><button type="submit" class="btn btn-success">Submit</button></p>

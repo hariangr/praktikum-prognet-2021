@@ -24,5 +24,9 @@
 <a href="/adminproductcategories">
     <button type="button" class="btn btn-primary">Product Categories</button>
 </a>
+
+<a href="/admindiscount">
+    <button type="button" class="btn btn-primary">Discount</button>
+</a>
     
 @endsection
