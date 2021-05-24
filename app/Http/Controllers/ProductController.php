@@ -126,25 +126,12 @@ class ProductController extends Controller
     {
         $product = $adminproduct;
         $id = $product->id;
-        $product_images = Product_images::select('image_name')->where('product_id',$id)->first();
+        $product_images = Product_images::select('image_name')->where('product_id',$id)->get();
         $product_categories = Product_categories::all();
         $product_category_details = Product_category_details::where('product_id',$id)->pluck('category_id')->toArray();
         return view('product-view',compact(['product','product_images','product_categories','product_category_details','id']));
         
     }
-
-    /*
-        $product = $adminproduct;
-        $id = $product->id;
-        $product_images_id = Product_images::select('id')->where('product_id',$id)->first();
-        $pimid = $product_images_id->id;
-        for ($pimid; $pimid<18 ; $pimid++){
-            $product_images = Product_images::select('image_name')->where('product_id',$id)->find($pimid);
-        }
-        $product_categories = Product_categories::all();
-        $product_category_details = Product_category_details::where('product_id',$id)->pluck('category_id')->toArray();
-        return view('product-view',compact(['product','product_images','product_categories','product_category_details','id']));
-    } *
 
     /**
      * Show the form for editing the specified resource.
@@ -156,7 +143,7 @@ class ProductController extends Controller
     {
         $product = $adminproduct;
         $id = $product->id;
-        $product_images = Product_images::select('image_name')->where('product_id',$id)->first();
+        $product_images = Product_images::select('id','image_name')->where('product_id',$id)->get();
         $product_categories = Product_categories::all();
         $product_category_details = Product_category_details::where('product_id',$id)->pluck('category_id')->toArray();
         return view('product-edit',compact(['product','product_images','product_categories','product_category_details','id']));
@@ -190,10 +177,15 @@ class ProductController extends Controller
             }
         }
 
+        
         if(!empty($request->image_name1)){
-            $file = $request->file('image_name1');
-            $product_images = new Product_images;
-            Product_images::where('product_id',$product->id)->delete();
+            if ($request->img0){
+                $id_img = $request->img0;
+                $file = $request->file('image_name1');
+                $product_images = new Product_images;
+                Product_images::where('id',$id_img)->delete();
+            }
+            $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();

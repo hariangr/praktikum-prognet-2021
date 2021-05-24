@@ -66,7 +66,9 @@
   </div>
 
   <div class="form-group">
-    <img src="{{ asset('img/'. $product_images->image_name)}}" height="5%" width="25%" alt="" srcset="">
+    @foreach ($product_images as $pi)
+      <img src="{{ asset('img/'. $pi->image_name)}}" height="5%" width="25%" alt="" srcset="">
+    @endforeach
   </div>
 
   <p><button type="submit" class="btn btn-success">Submit</button></p>

@@ -61,11 +61,17 @@
     <input type="text" class="form-control" id="weight"value="{{$product->weight}}"  placeholder="Masukkan Berat Produk" name="weight" required>
   </div>
 
+  @foreach($product_images as $i=>$pi)
+  <div class="form-group">
+    <input type="number" class="form-control" id="img{{$i}}"value="{{$pi->id}}" name="img{{$i}}" required>
+  </div>
+  @endforeach
+
   <div class="form-group">
     <label for="nama">Foto Produk 1:</label>
     <input type="file" class="form-control" id="image_name1" placeholder="Masukkan Foto Produk" name="image_name1" required>
   </div>
-
+  
   <div class="form-group">
     <label for="nama">Foto Produk 2:</label>
     <input type="file" class="form-control" id="image_name2" placeholder="Masukkan Foto Produk" name="image_name2">
@@ -87,7 +93,9 @@
   </div>
 
   <div class="form-group">
-    <img src="{{ asset('img/'. $product_images->image_name)}}" height="5%" width="25%" alt="" srcset="">
+    @foreach ($product_images as $pi)
+      <img src="{{ asset('img/'. $pi->image_name)}}" height="5%" width="25%" alt="" srcset="">
+    @endforeach
   </div>
 
 
