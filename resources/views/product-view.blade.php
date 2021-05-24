@@ -37,8 +37,8 @@
   </div>
 
   <div class="form-group">
-    <label for="nama">Harga Produk:</label>
-    <input type="text" class="form-control" id="price"value="{{$product->price}}"  placeholder="Masukkan Harga Produk" name="price" readonly>
+    <label for="nama">Harga Produk (Rp):</label>
+    <input type="number" class="form-control" id="price"value="{{$product->price}}"  placeholder="Masukkan Harga Produk" name="price" readonly>
   </div>
   
   <div class="form-group">
@@ -48,7 +48,7 @@
 
   <div class="form-group">
     <label for="nama">Rate Produk:</label>
-    <input type="text" class="form-control" id="product_rate"value="{{$product->product_rate}}"  placeholder="Masukkan Rate Produk" name="product_rate" readonly>
+    <input type="number" class="form-control" id="product_rate"value="{{$product->product_rate}}"  placeholder="Masukkan Rate Produk" name="product_rate" readonly>
   </div>
 
   <div class="form-group">
@@ -57,8 +57,8 @@
   </div>
 
   <div class="form-group">
-    <label for="nama">Berat Produk:</label>
-    <input type="text" class="form-control" id="weight"value="{{$product->weight}}"  placeholder="Masukkan Berat Produk" name="weight" readonly>
+    <label for="nama">Berat Produk (Kg):</label>
+    <input type="number" class="form-control" id="weight"value="{{$product->weight}}"  placeholder="Masukkan Berat Produk" name="weight" readonly>
   </div>
 
   <div class="form-group">
@@ -67,7 +67,8 @@
 
   <div class="form-group">
     @foreach ($product_images as $pi)
-      <img src="{{ asset('img/'. $pi->image_name)}}" height="5%" width="25%" alt="" srcset="">
+      <img src="{{ asset('img/'. $pi->image_name)}}" height="10%" width="30%" alt="" srcset="">
+      &nbsp
     @endforeach
   </div>
 

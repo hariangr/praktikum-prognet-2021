@@ -194,8 +194,13 @@ class ProductController extends Controller
         }
 
         if(!empty($request->image_name2)){
-            $file = $request->file('image_name2');
-            $product_images = new Product_images;
+            if ($request->img1){
+                $id_img = $request->img1;
+                $file = $request->file('image_name2');
+                $product_images = new Product_images;
+                Product_images::where('id',$id_img)->delete();
+            }
+            $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
@@ -204,8 +209,13 @@ class ProductController extends Controller
         }
 
         if(!empty($request->image_name3)){
-            $file = $request->file('image_name3');
-            $product_images = new Product_images;
+            if ($request->img2){
+                $id_img = $request->img2;
+                $file = $request->file('image_name3');
+                $product_images = new Product_images;
+                Product_images::where('id',$id_img)->delete();
+            }
+            $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
@@ -214,8 +224,13 @@ class ProductController extends Controller
         }
 
         if(!empty($request->image_name4)){
-            $file = $request->file('image_name4');
-            $product_images = new Product_images;
+            if ($request->img3){
+                $id_img = $request->img3;
+                $file = $request->file('image_name4');
+                $product_images = new Product_images;
+                Product_images::where('id',$id_img)->delete();
+            }
+            $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
@@ -224,22 +239,20 @@ class ProductController extends Controller
         }
 
         if(!empty($request->image_name5)){
-            $file = $request->file('image_name5');
-            $product_images = new Product_images;
+            if ($request->img4){
+                $id_img = $request->img4;
+                $file = $request->file('image_name5');
+                $product_images = new Product_images;
+                Product_images::where('id',$id_img)->delete();
+            }
+            $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
     
             $file->move('img',$file->getClientOriginalName());
         }
-
-
-
-
-
-
         return redirect('/adminproduct')->with('message', 'Data Produk Berhasil Ditambahkan');
-        
     }
 
     /**

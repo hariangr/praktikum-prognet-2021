@@ -31,8 +31,8 @@
   </div>
 
   <div class="form-group">
-    <label for="nama">Harga Produk:</label>
-    <input type="text" class="form-control" id="price" placeholder="Masukkan Harga Produk" name="price" required>
+    <label for="nama">Harga Produk (Rp):</label>
+    <input type="number" class="form-control" id="price" placeholder="Masukkan Harga Produk" name="price" required>
   </div>
   
   <div class="form-group">
@@ -42,17 +42,17 @@
 
   <div class="form-group">
     <label for="nama">Rate Produk:</label>
-    <input type="text" class="form-control" id="product_rate" placeholder="Masukkan Rate Produk" name="product_rate" required>
+    <input type="number" class="form-control" id="product_rate" placeholder="Masukkan Rate Produk" name="product_rate" required>
   </div>
 
   <div class="form-group">
     <label for="nama">Stok Produk:</label>
-    <input type="text" class="form-control" id="stock" placeholder="Masukkan Jumlah Stock Produk" name="stock" required>
+    <input type="number" class="form-control" id="stock" placeholder="Masukkan Jumlah Stock Produk" name="stock" required>
   </div>
 
   <div class="form-group">
-    <label for="nama">Berat Produk:</label>
-    <input type="text" class="form-control" id="weight" placeholder="Masukkan Berat Produk" name="weight" required>
+    <label for="nama">Berat Produk (Kg):</label>
+    <input type="number" class="form-control" id="weight" placeholder="Masukkan Berat Produk" name="weight" required>
   </div>
 
   <div class="form-group">
