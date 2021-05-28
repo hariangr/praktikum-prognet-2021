@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\City;
+use App\Models\Courier;
+use App\Models\Province;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -15,8 +18,13 @@ class CartController extends Controller
      */
     public function index()
     {
-        $data_cart= Cart::where('user_id', Auth::user()->id)->where('status', 'notyet')->get();
-        return view('user_layouts.user_cardpage_1', compact('data_cart'));
+        $carts = Cart::where('user_id', Auth::user()->id)->where('status', 'notyet')->get();
+
+        $provinces = Province::all();
+        $cities = City::all();
+        $courier = Courier::all();
+
+        return view('user.cart', compact('carts', 'provinces', 'cities', 'courier'));
     }
 
     /**
@@ -28,11 +36,12 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $cart = new Cart();
-        $cart->user_id=Auth::user()->id;
-        $cart->product_id=$request->id_produk;
-        $cart->qty=1;
-        $cart->status='notyet';
+        $cart->user_id = Auth::user()->id;
+        $cart->product_id = $request->product_id;
+        $cart->qty = 1;
+        $cart->status = 'notyet';
         $cart->save();
+        return back();
     }
 
     /**
@@ -56,6 +65,11 @@ class CartController extends Controller
     public function update(Request $request, Cart $cart)
     {
         //
+    }
+
+
+    public function checkout(Request $request)
+    {
     }
 
     /**
