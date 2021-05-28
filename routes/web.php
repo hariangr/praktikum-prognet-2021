@@ -23,6 +23,10 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
 Route::get('/login', function () {
     return redirect(route('userLoginForm'));
 })->name('login');
@@ -38,15 +42,26 @@ Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
 Route::post('/register/user', [RegisterController::class, 'createUser']);
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware(['auth:user'])->name('home');
+Route::get('/home', function () {
+    return redirect(route('dashboard.home'));
+})->name('home');
+Route::prefix('dashboard')->name('dashboard.')->middleware(['auth:user'])->group(function () {
+    
+    Route::get('/', function (Request $request) {
+        return view('home');
+    })->name('home');
+
+});
+
 
 Route::get('/admin', function (Request $request) {
-    return view('admin.panel');
+    // return view('admin.panel');
+    return redirect(route('admindashboard'));
 })->middleware(['auth:admin'])->name('admin_home');
 
 Route::get('/admindashboard', function () {
     return view('dashboard-admin');
-});
+})->middleware(['auth:admin'])->name('admindashboard');
 
 
 Route::resource('/adminproduct','App\Http\Controllers\ProductController')->middleware(['auth:admin']);

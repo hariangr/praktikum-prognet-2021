@@ -39,6 +39,13 @@ class FixDbTemplate extends Migration
             $table->string("profile_image")->nullable();
             $table->string("status")->nullable();
         });
+
+        Schema::table('admins', function (Blueprint $table) {
+            $table->dropColumn('username');
+        });
+        Schema::table('admins', function (Blueprint $table) {
+            $table->string("email");
+        });
     }
 
     /**
