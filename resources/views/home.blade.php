@@ -20,7 +20,11 @@
                                     <form action="{{ route('cart.store') }}" method="post">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $it->id }}">
-                                        <button class="btn btn-primary">Add Cart</button>
+                                        <button class="btn btn-outline-primary">Add Cart
+                                            @if ($it->my_cart() != null)
+                                                ({{ $it->my_cart()->qty }})
+                                            @endif
+                                        </button>
                                     </form>
                                 </div>
                             </div>
