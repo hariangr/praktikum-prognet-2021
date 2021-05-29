@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\ProductReview;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Notifications\NewReview;
+use App\Notifications\PaymentUploaded;
 use App\Notifications\UserStatusTransactionChanged;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -57,6 +60,11 @@ class TransactionController extends Controller
         $pembeli = User::where('id', $trans->user_id)->first();
         $pembeli->notify(new UserStatusTransactionChanged($trans->id, $trans->status, 'unverified'));
 
+        $allAdmins = Admin::all();
+        foreach ($allAdmins as $it) {
+            $it->notify(new PaymentUploaded($trans->id));
+        }
+
         return back();
     }
 
@@ -68,6 +76,8 @@ class TransactionController extends Controller
         $newRating = $request['newRating'];
         $content = $request['content'];
 
+        $allAdmins = Admin::all();
+
         foreach ($trans->detailTransactions as $it) {
             $newReview = ProductReview::create([
                 "product_id" => $it->product_id,
@@ -75,10 +85,15 @@ class TransactionController extends Controller
                 "rate" => $newRating,
                 "content" => $content,
             ]);
+
+            foreach ($allAdmins as $it ) {
+                $it->notify(new NewReview($it->id));
+            }
         }
 
         $trans['status'] = 'success';
         $trans->save();
+
 
         return back();
     }

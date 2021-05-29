@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\City;
 use App\Models\Courier;
@@ -9,6 +10,7 @@ use App\Models\Province;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\TransactionsDetail;
+use App\Notifications\NewTransaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -161,6 +163,11 @@ class CartController extends Controller
             Cart::where('id', $it->id)->update([
                 'status' => 'checkedout',
             ]);
+        }
+
+        $allAdmins = Admin::all();
+        foreach ($allAdmins as $it) {
+            $it->notify(new NewTransaction($new_trans->id));
         }
 
         return redirect(route('transaction.show', $new_trans->id));
