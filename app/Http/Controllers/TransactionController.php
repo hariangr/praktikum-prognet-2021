@@ -18,6 +18,7 @@ class TransactionController extends Controller
     public function index()
     {
         $myTrans = Transaction::where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'DESC')
             ->get();
         // $waitingVerifications = Transaction::where('user_id', Auth::user()->id)
         //     ->whereIn('status', ['unverified', 'null'])
