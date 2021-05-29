@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\TransactionAdminController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\TransactionController;
 use App\Models\City;
 use App\Models\Product;
 use App\Models\Province;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
 use Illuminate\Support\Facades\Log;
@@ -103,10 +105,14 @@ Route::prefix('ongkir')->name('ongkir.')->group(function () {
 });
 
 
-Route::get('/admin', function (Request $request) {
-    // return view('admin.panel');
-    return redirect(route('admindashboard'));
-})->middleware(['auth:admin'])->name('admin_home');
+
+Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(function () {
+    Route::get('/', function () {
+        return redirect(route('admindashboard'));
+    })->name('home');
+
+    Route::resource('/transaction', 'App\Http\Controllers\Admin\TransactionAdminController');
+});
 
 Route::get('/admindashboard', function () {
     return view('dashboard-admin');
