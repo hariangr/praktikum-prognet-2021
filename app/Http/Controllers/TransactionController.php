@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductReview;
 use App\Models\Transaction;
+use App\Models\User;
+use App\Notifications\UserStatusTransactionChanged;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +42,7 @@ class TransactionController extends Controller
     {
         Log::info($request);
 
+        $trans = null;
         foreach ($request->file('bukti') as $bukti) {
             $fileName = md5(now()) . '_' . $bukti->getClientOriginalName();
             $bukti->move('img/bukti', $fileName);
@@ -49,6 +52,10 @@ class TransactionController extends Controller
             $trans->status = 'unverified';
             $trans->save();
         }
+
+        // Way too hacky
+        $pembeli = User::where('id', $trans->user_id)->first();
+        $pembeli->notify(new UserStatusTransactionChanged($trans->id, $trans->status, 'unverified'));
 
         return back();
     }

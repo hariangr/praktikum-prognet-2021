@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\UserStatusTransactionChanged;
 
 class TransactionAdminController extends Controller
 {
@@ -72,8 +74,13 @@ class TransactionAdminController extends Controller
     public function update(Request $request, Transaction $transaction)
     {
         $new_status = $request['status_update'];
+
+        $pembeli = Auth::user();
+        $pembeli->notify(new UserStatusTransactionChanged($transaction->id, $transaction->status, $new_status));
+
         $transaction['status'] = $new_status;
         $transaction->save();
+
         return back();
     }
 

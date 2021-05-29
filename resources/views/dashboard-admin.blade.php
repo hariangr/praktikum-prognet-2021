@@ -32,5 +32,9 @@
 <a href="/review/all">
     <button type="button" class="btn btn-primary">All Review</button>
 </a>
+
+<a href="/admin/transaction">
+    <button type="button" class="btn btn-primary">All Transactions</button>
+</a>
     
 @endsection
