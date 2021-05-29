@@ -7,6 +7,9 @@
                 <div class="card">
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
+
+                    <a href="{{ route('cart.index') }}">Lihat Keranjang Belanja ({{ count($myCart) }})</a>
+
                     <div class="card-body">
                         @foreach ($products as $it)
                             <div class="card" style="width: 18rem;">

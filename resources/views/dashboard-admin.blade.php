@@ -28,5 +28,9 @@
 <a href="/admindiscount">
     <button type="button" class="btn btn-primary">Discount</button>
 </a>
+
+<a href="/review/all">
+    <button type="button" class="btn btn-primary">All Review</button>
+</a>
     
 @endsection

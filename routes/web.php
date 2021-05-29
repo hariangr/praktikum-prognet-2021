@@ -15,6 +15,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
 use Illuminate\Support\Facades\Log;
+use App\Models\Cart;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +60,8 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth:user'])->group
 
     Route::get('/', function (Request $request) {
         $products = Product::all();
-        return view('home', compact('products'));
+        $myCart = Cart::where('user_id', Auth::user()->id)->where('status', 'notyet')->get();
+        return view('home', compact('products', 'myCart'));
     })->name('home');
 });
 
