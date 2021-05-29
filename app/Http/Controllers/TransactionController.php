@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductReview;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,6 +53,29 @@ class TransactionController extends Controller
         return back();
     }
 
+    public function addRating(Request $request)
+    {
+        $trans_id = $request['trans_id'];
+        $trans = Transaction::where('id', $trans_id)->first();
+
+        $newRating = $request['newRating'];
+        $content = $request['content'];
+
+        foreach ($trans->detailTransactions as $it) {
+            $newReview = ProductReview::create([
+                "product_id" => $it->product_id,
+                "user_id" => Auth::user()->id,
+                "rate" => $newRating,
+                "content" => $content,
+            ]);
+        }
+
+        $trans['status'] = 'success';
+        $trans->save();
+
+        return back();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -82,6 +106,8 @@ class TransactionController extends Controller
     public function show(Transaction $transaction)
     {
         $timeNow = Carbon::now();
+
+        $allowReview = True;
         return view('user.transactions.show', compact('transaction', 'timeNow'));
     }
 

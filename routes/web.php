@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Models\City;
 use App\Models\Product;
@@ -72,6 +73,7 @@ Route::prefix('cart')->name('cart.')->middleware(['auth:user'])->group(function 
 
 
 Route::post('/transaction/uploadpayment', [TransactionController::class, 'addPayment'])->name('addPayment');
+Route::post('/transaction/addRating', [TransactionController::class, 'addRating'])->name('addRating');
 Route::resource('transaction', TransactionController::class)
     ->only('index', 'show')
     ->middleware(['auth:user']);
@@ -118,7 +120,12 @@ Route::get('/admindashboard', function () {
     return view('dashboard-admin');
 })->middleware(['auth:admin'])->name('admindashboard');
 
+
+Route::get('/review/all', [ProductController::class, 'allReview'])->name('allReview');
+Route::get('/review/{reviewid}', [ProductController::class, 'showOneReview'])->name('showOneReview');
+Route::post('/review/{reviewid}', [ProductController::class, 'replyReview'])->middleware(['auth:admin'])->name('replyReview');
 Route::resource('/adminproduct', 'App\Http\Controllers\ProductController')->middleware(['auth:admin']);
+
 Route::resource('/admincourier', 'App\Http\Controllers\CourierController')->middleware(['auth:admin']);
 Route::resource('/adminproductcategories', 'App\Http\Controllers\ProductCategoriesController')->middleware(['auth:admin']);
 Route::resource('/admindiscount', 'App\Http\Controllers\DiscountController')->middleware(['auth:admin']);

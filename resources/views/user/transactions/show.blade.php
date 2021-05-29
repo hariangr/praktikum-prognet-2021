@@ -1,9 +1,8 @@
 @extends('layout')
 
-
-{{ $transaction }}
-{{ $number = 0 }}
-
+@php
+     $number = 0;
+@endphp
 
 @section('page-contents')
     <table class="table table-hover">
@@ -34,7 +33,7 @@
     </table>
 
     <div>
-        <p>Nilai perlu dibayar: Rp. {{$transaction->sub_total}}, -</p>
+        <p>Nilai perlu dibayar: Rp. {{ $transaction->sub_total }}, -</p>
     </div>
 
     @if ($transaction->status == null)
@@ -87,4 +86,38 @@
         <p>Transaksi anda berstatus {{ $transaction->status }}</p>
     @endif
 
+
+    @if ($transaction->status == 'delivered')
+        <form action="{{ route('addRating') }}" method="POST">
+            @csrf
+            <input type="hidden" name="trans_id" value="{{ $transaction->id }}">
+
+            <div>
+                <label for="newRating">
+                    Rating
+                    <select name="newRating" id="newRating">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                </label>
+            </div>
+
+            <div>
+                <label for="">
+                    Ulasan
+
+                    <textarea name="content" id="" cols="30" rows="10"></textarea>
+                </label>
+            </div>
+
+            <div>
+                <Button>Beri Ulasan</Button>
+            </div>
+        </form>
+    @endif
+
+    @if ($transaction->status == 'success')
+        <p>Kamu sudah memberikan ulasan</p>
+    @endif
 @endsection

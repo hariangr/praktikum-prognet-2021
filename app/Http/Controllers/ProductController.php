@@ -7,9 +7,11 @@ use App\Models\Product_categories;
 use App\Models\Product_category_details;
 use App\Models\Product_images;
 use App\Models\discount;
-
+use App\Models\ProductResponse;
+use App\Models\ProductReview;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 
 class ProductController extends Controller
@@ -22,7 +24,38 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::all();
-        return view('product-list',compact(['product']));
+        return view('product-list', compact(['product']));
+    }
+
+    public function showOneReview(Request $request)
+    {
+        $id = $request['reviewid'];
+        $review = ProductReview::where('id', $id)->first();
+
+        $adminResponse = ProductResponse::where('review_id', $id)->get();
+
+        return view('admin.review.show', compact('review', 'adminResponse'));
+    }
+
+    public function replyReview(Request $request)
+    {
+        $id = $request['reviewid'];
+        $review = ProductReview::where('id', $id)->first();
+
+        $newResponse = ProductResponse::create([
+            "review_id" => $id,
+            "admin_id" => Auth::user()->id,
+            "content" => $request['content'],
+        ]);
+
+        return back();
+    }
+
+
+    public function allReview()
+    {
+        $reviews = ProductReview::all();
+        return view('admin.review.all_review', compact('reviews'));
     }
 
     /**
@@ -33,7 +66,7 @@ class ProductController extends Controller
     public function create()
     {
         $product_categories = Product_categories::all();
-        return view('product-new',compact(['product_categories']));
+        return view('product-new', compact(['product_categories']));
     }
 
     /**
@@ -52,64 +85,64 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->weight = $request->weight;
         $product->save();
-        
-        if (is_array($request->category_id) || is_object($request->category_id)){
-            foreach($request->category_id as $category_id){
+
+        if (is_array($request->category_id) || is_object($request->category_id)) {
+            foreach ($request->category_id as $category_id) {
                 $product_category_details = new Product_category_details;
                 $product_category_details->product_id = $product->id;
                 $product_category_details->category_id = $category_id;
                 $product_category_details->save();
             }
         }
-    
-        if(!empty($request->image_name1)){
+
+        if (!empty($request->image_name1)) {
             $file = $request->file('image_name1');
             $product_images = new Product_images;
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
-        if(!empty($request->image_name2)){
+        if (!empty($request->image_name2)) {
             $file = $request->file('image_name2');
             $product_images = new Product_images;
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
-        if(!empty($request->image_name3)){
+        if (!empty($request->image_name3)) {
             $file = $request->file('image_name3');
             $product_images = new Product_images;
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
-        if(!empty($request->image_name4)){
+        if (!empty($request->image_name4)) {
             $file = $request->file('image_name4');
             $product_images = new Product_images;
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
-        if(!empty($request->image_name5)){
+        if (!empty($request->image_name5)) {
             $file = $request->file('image_name5');
             $product_images = new Product_images;
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
 
@@ -126,11 +159,10 @@ class ProductController extends Controller
     {
         $product = $adminproduct;
         $id = $product->id;
-        $product_images = Product_images::select('image_name')->where('product_id',$id)->get();
+        $product_images = Product_images::select('image_name')->where('product_id', $id)->get();
         $product_categories = Product_categories::all();
-        $product_category_details = Product_category_details::where('product_id',$id)->pluck('category_id')->toArray();
-        return view('product-view',compact(['product','product_images','product_categories','product_category_details','id']));
-        
+        $product_category_details = Product_category_details::where('product_id', $id)->pluck('category_id')->toArray();
+        return view('product-view', compact(['product', 'product_images', 'product_categories', 'product_category_details', 'id']));
     }
 
     /**
@@ -143,10 +175,10 @@ class ProductController extends Controller
     {
         $product = $adminproduct;
         $id = $product->id;
-        $product_images = Product_images::select('id','image_name')->where('product_id',$id)->get();
+        $product_images = Product_images::select('id', 'image_name')->where('product_id', $id)->get();
         $product_categories = Product_categories::all();
-        $product_category_details = Product_category_details::where('product_id',$id)->pluck('category_id')->toArray();
-        return view('product-edit',compact(['product','product_images','product_categories','product_category_details','id']));
+        $product_category_details = Product_category_details::where('product_id', $id)->pluck('category_id')->toArray();
+        return view('product-edit', compact(['product', 'product_images', 'product_categories', 'product_category_details', 'id']));
     }
 
     /**
@@ -167,9 +199,9 @@ class ProductController extends Controller
         $product->weight = $request->weight;
         $product->save();
 
-        Product_category_details::where('product_id',$product->id)->delete();
-        if(!empty($request->category_id)){
-            foreach($request->category_id as $category_id){
+        Product_category_details::where('product_id', $product->id)->delete();
+        if (!empty($request->category_id)) {
+            foreach ($request->category_id as $category_id) {
                 $product_category_details = new Product_category_details;
                 $product_category_details->product_id = $product->id;
                 $product_category_details->category_id = $category_id;
@@ -177,80 +209,80 @@ class ProductController extends Controller
             }
         }
 
-        
-        if(!empty($request->image_name1)){
-            if ($request->img0){
+
+        if (!empty($request->image_name1)) {
+            if ($request->img0) {
                 $id_img = $request->img0;
                 $file = $request->file('image_name1');
                 $product_images = new Product_images;
-                Product_images::where('id',$id_img)->delete();
+                Product_images::where('id', $id_img)->delete();
             }
             $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
-        if(!empty($request->image_name2)){
-            if ($request->img1){
+        if (!empty($request->image_name2)) {
+            if ($request->img1) {
                 $id_img = $request->img1;
                 $file = $request->file('image_name2');
                 $product_images = new Product_images;
-                Product_images::where('id',$id_img)->delete();
+                Product_images::where('id', $id_img)->delete();
             }
             $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
-        if(!empty($request->image_name3)){
-            if ($request->img2){
+        if (!empty($request->image_name3)) {
+            if ($request->img2) {
                 $id_img = $request->img2;
                 $file = $request->file('image_name3');
                 $product_images = new Product_images;
-                Product_images::where('id',$id_img)->delete();
+                Product_images::where('id', $id_img)->delete();
             }
             $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
-        if(!empty($request->image_name4)){
-            if ($request->img3){
+        if (!empty($request->image_name4)) {
+            if ($request->img3) {
                 $id_img = $request->img3;
                 $file = $request->file('image_name4');
                 $product_images = new Product_images;
-                Product_images::where('id',$id_img)->delete();
+                Product_images::where('id', $id_img)->delete();
             }
             $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
 
-        if(!empty($request->image_name5)){
-            if ($request->img4){
+        if (!empty($request->image_name5)) {
+            if ($request->img4) {
                 $id_img = $request->img4;
                 $file = $request->file('image_name5');
                 $product_images = new Product_images;
-                Product_images::where('id',$id_img)->delete();
+                Product_images::where('id', $id_img)->delete();
             }
             $product_images = new Product_images();
             $product_images->product_id = $product->id;
             $product_images->image_name = $file->getClientOriginalName();
             $product_images->save();
-    
-            $file->move('img',$file->getClientOriginalName());
+
+            $file->move('img', $file->getClientOriginalName());
         }
         return redirect('/adminproduct')->with('message', 'Data Produk Berhasil Ditambahkan');
     }
@@ -263,13 +295,13 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $filename=Product_images::select('image_name')->where('product_id',$id)->first();
-        File::delete('img/'.$filename);
+        $filename = Product_images::select('image_name')->where('product_id', $id)->first();
+        File::delete('img/' . $filename);
 
-        Product_images::where('product_id',$id)->delete();
-        Product_category_details::where('product_id',$id)->delete();
+        Product_images::where('product_id', $id)->delete();
+        Product_category_details::where('product_id', $id)->delete();
 
-        Product::where('id',$id)->delete();
+        Product::where('id', $id)->delete();
         return redirect('/adminproduct')->with('message', 'Data Produk Berhasil Dihapus');
     }
 }
