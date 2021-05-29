@@ -17,22 +17,21 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $waitings = Transaction::where('user_id', Auth::user()->id)
-            ->where('status', null)
+        $myTrans = Transaction::where('user_id', Auth::user()->id)
             ->get();
-        $waitingVerifications = Transaction::where('user_id', Auth::user()->id)
-            ->whereIn('status', ['unverified', 'null'])
-            ->get();
-        $onseller = Transaction::where('user_id', Auth::user()->id)
-            ->where('status', 'verified')
-            ->get();
-        $finish = Transaction::where('user_id', Auth::user()->id)
-            ->whereIn('status', ['delivered', 'success'])
-            ->get();
-        $faileds = Transaction::where('user_id', Auth::user()->id)
-            ->whereIn('status', ['expired', 'cancelled'])
-            ->get();
-        return view('user.transactions.index', compact('waitings'));
+        // $waitingVerifications = Transaction::where('user_id', Auth::user()->id)
+        //     ->whereIn('status', ['unverified', 'null'])
+        //     ->get();
+        // $onseller = Transaction::where('user_id', Auth::user()->id)
+        //     ->where('status', 'verified')
+        //     ->get();
+        // $finish = Transaction::where('user_id', Auth::user()->id)
+        //     ->whereIn('status', ['delivered', 'success'])
+        //     ->get();
+        // $faileds = Transaction::where('user_id', Auth::user()->id)
+        //     ->whereIn('status', ['expired', 'cancelled'])
+        //     ->get();
+        return view('user.transactions.index', compact('myTrans'));
     }
 
     public function addPayment(Request $request)
