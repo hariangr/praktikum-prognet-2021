@@ -113,7 +113,7 @@ class CartController extends Controller
         $shipping_cost = $request['courier_service'];
         $total = $request['total'];
         $courier_code = $request['courier'];
-        $status = 'unverified';
+        $status = null;
 
         $sub_total = $total + $shipping_cost;
 
@@ -132,8 +132,7 @@ class CartController extends Controller
             "status" => $status,
         ]);
 
-
-        $itemsInCartNotYet = Cart::where('user_id', Auth::user()->id)->get();
+        $itemsInCartNotYet = Cart::where('user_id', Auth::user()->id)->where('status', 'notyet')->get();
         foreach ($itemsInCartNotYet as $it) {
             $discount_int = null;
             foreach ($it->product->diskon as $diskon) {
@@ -163,6 +162,8 @@ class CartController extends Controller
                 'status' => 'checkedout',
             ]);
         }
+
+        return redirect(route('transaction.show', $new_trans->id));
     }
 
     /**

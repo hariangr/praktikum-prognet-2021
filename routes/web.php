@@ -68,6 +68,8 @@ Route::prefix('cart')->name('cart.')->middleware(['auth:user'])->group(function 
     Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 });
 
+
+Route::post('/transaction/uploadpayment', [TransactionController::class, 'addPayment'])->name('addPayment');
 Route::resource('transaction', TransactionController::class)
     ->only('index', 'show')
     ->middleware(['auth:user']);

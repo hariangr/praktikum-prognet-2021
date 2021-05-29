@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
@@ -16,7 +18,10 @@ class TransactionController extends Controller
     public function index()
     {
         $waitings = Transaction::where('user_id', Auth::user()->id)
-            ->where('status', 'unverified')
+            ->where('status', null)
+            ->get();
+        $waitingVerifications = Transaction::where('user_id', Auth::user()->id)
+            ->whereIn('status', ['unverified', 'null'])
             ->get();
         $onseller = Transaction::where('user_id', Auth::user()->id)
             ->where('status', 'verified')
@@ -28,6 +33,23 @@ class TransactionController extends Controller
             ->whereIn('status', ['expired', 'cancelled'])
             ->get();
         return view('user.transactions.index', compact('waitings'));
+    }
+
+    public function addPayment(Request $request)
+    {
+        Log::info($request);
+
+        foreach ($request->file('bukti') as $bukti) {
+            $fileName = md5(now()) . '_' . $bukti->getClientOriginalName();
+            $bukti->move('img/bukti', $fileName);
+
+            $trans = Transaction::find($request['idTransaksi']);
+            $trans->proof_of_payment = $fileName;
+            $trans->status = 'unverified';
+            $trans->save();
+        }
+
+        return back();
     }
 
     /**
@@ -59,7 +81,8 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        return view('user.transactions.show', compact('transaction'));
+        $timeNow = Carbon::now();
+        return view('user.transactions.show', compact('transaction', 'timeNow'));
     }
 
     /**

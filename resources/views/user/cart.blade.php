@@ -14,7 +14,7 @@
         <div>
             <label for="address">
                 Alamat
-                <input type="text" name="address" id="address">
+                <input type="text" name="address" id="address" required>
             </label>
         </div>
 
@@ -61,7 +61,7 @@
         </div>
 
         <div>
-            <p>Harga total: {{ $total }}</p>
+            <p>Harga barang: {{ $total }}</p>
             <input type="hidden" name="total" value="{{ $total }}">
             <p>Berat total: {{ $berat_total }}</p>
             <input type="hidden" name="weight" value="{{ $berat_total }}">
