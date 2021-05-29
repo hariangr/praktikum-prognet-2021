@@ -32,9 +32,11 @@ class ProductController extends Controller
         $id = $request['reviewid'];
         $review = ProductReview::where('id', $id)->first();
 
+        $product = Product::where('id', $review->product_id)->first();
+
         $adminResponse = ProductResponse::where('review_id', $id)->get();
 
-        return view('admin.review.show', compact('review', 'adminResponse'));
+        return view('admin.review.show', compact('review', 'adminResponse', 'product'));
     }
 
     public function replyReview(Request $request)

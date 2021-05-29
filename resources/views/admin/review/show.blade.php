@@ -1,6 +1,8 @@
 @extends('layout')
 
 @section('page-contents')
+    {{ $product }}
+
     {{ $review }}
 
     {{ $adminResponse }}
