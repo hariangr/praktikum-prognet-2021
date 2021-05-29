@@ -9,6 +9,8 @@ use App\Models\Product_images;
 use App\Models\discount;
 use App\Models\ProductResponse;
 use App\Models\ProductReview;
+use App\Models\User;
+use App\Notifications\AdminResponseToReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +55,9 @@ class ProductController extends Controller
             "admin_id" => Auth::user()->id,
             "content" => $request['content'],
         ]);
+
+        $user = User::where('id', $review->user_id)->first();
+        $user->notify(new AdminResponseToReview($request['content'], $review->id, $request['content']));
 
         return back();
     }
