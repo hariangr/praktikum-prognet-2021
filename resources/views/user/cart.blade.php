@@ -97,6 +97,8 @@
                     }
                 })
 
+                console.log({harga});
+
                 if (harga.length == 0) {
                     ongkirEl.innerText = "Tidak tersedia";
                 } else {
