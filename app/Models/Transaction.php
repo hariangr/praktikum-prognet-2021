@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TransactionDetail;
 
 class Transaction extends Model
 {
@@ -15,11 +16,15 @@ class Transaction extends Model
 
     public function detailTransactions()
     {
-        return $this->hasMany(TransactionsDetail::class, 'transaction_id', 'id');
+        return $this->hasMany(TransactionDetail::class, 'transaction_id', 'id');
     }
 
     public function getProofOfPayment()
     {
         return $this->proof_of_payment ? asset('storage/img/buktipembayaran/' . $this->proof_of_payment) : asset('img-001.jpg');
+    }
+
+    public function courier(){
+        return $this->belongsTo(Courier::class,'courier_id','id');
     }
 }

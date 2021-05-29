@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\TransactionController;
 use App\Models\City;
 use App\Models\Product;
 use App\Models\Province;
@@ -52,25 +53,27 @@ Route::get('/home', function () {
     return redirect(route('dashboard.home'));
 })->name('home');
 Route::prefix('dashboard')->name('dashboard.')->middleware(['auth:user'])->group(function () {
-    
+
     Route::get('/', function (Request $request) {
         $products = Product::all();
         return view('home', compact('products'));
     })->name('home');
-
 });
 
 
 Route::prefix('cart')->name('cart.')->middleware(['auth:user'])->group(function () {
-    
+
     Route::get('/mine', [CartController::class, 'index'])->name('index');
     Route::post('/add', [CartController::class, 'store'])->name('store');
     Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
-
 });
 
+Route::resource('transaction', TransactionController::class)
+    ->only('index', 'show')
+    ->middleware(['auth:user']);
+
 Route::prefix('ongkir')->name('ongkir.')->group(function () {
-    
+
     Route::get('/provinces', function () {
         $provinces = Province::all();
         return response()->json($provinces);
@@ -89,13 +92,12 @@ Route::prefix('ongkir')->name('ongkir.')->group(function () {
                 'weight'        => $request['weight'], // berat barang dalam gram
                 'courier'       => $request['courier'] // kode kurir pengiriman: ['jne', 'tiki', 'pos'] untuk starter
             ])->get();
-    
+
             return response()->json($cost);
         } catch (\Throwable $th) {
             return response([], 400);
         }
     })->name('cekharga');
-
 });
 
 
@@ -108,7 +110,7 @@ Route::get('/admindashboard', function () {
     return view('dashboard-admin');
 })->middleware(['auth:admin'])->name('admindashboard');
 
-Route::resource('/adminproduct','App\Http\Controllers\ProductController')->middleware(['auth:admin']);
-Route::resource('/admincourier','App\Http\Controllers\CourierController')->middleware(['auth:admin']);
-Route::resource('/adminproductcategories','App\Http\Controllers\ProductCategoriesController')->middleware(['auth:admin']);
-Route::resource('/admindiscount','App\Http\Controllers\DiscountController')->middleware(['auth:admin']);
+Route::resource('/adminproduct', 'App\Http\Controllers\ProductController')->middleware(['auth:admin']);
+Route::resource('/admincourier', 'App\Http\Controllers\CourierController')->middleware(['auth:admin']);
+Route::resource('/adminproductcategories', 'App\Http\Controllers\ProductCategoriesController')->middleware(['auth:admin']);
+Route::resource('/admindiscount', 'App\Http\Controllers\DiscountController')->middleware(['auth:admin']);
