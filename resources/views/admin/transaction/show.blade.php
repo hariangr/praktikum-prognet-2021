@@ -1,8 +1,16 @@
 @extends('layout')
 
+@section('page-title')
+    <div class="jumbotron text-center">
+        <h1>Detail Transaksi</h1>
+    </div>
+@endsection
 
-{{ $transaction }}
-{{ $number = 0 }}
+
+{{-- {{ $transaction }} --}}
+@php
+    $number = 0;
+@endphp
 
 
 @section('page-contents')
@@ -58,7 +66,10 @@
                 <button class="btn btn-primary">Update</button>
             </div>
         </form>
-        <img src="{{ asset('img/bukti/' . $transaction->proof_of_payment) }}" alt="">
+        <div style="padding-top: 2rem;">
+            <p>Bukti Transaksi Dikirim</p>
+            <img style="max-width: 18rem;" src="{{ asset('img/bukti/' . $transaction->proof_of_payment) }}" alt="">
+        </div>
     </div>
 
 @endsection

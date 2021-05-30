@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('page-title')
+    <div class="jumbotron text-center">
+        <h1>Semua Review</h1>
+    </div>
+@endsection
+
 @section('page-contents')
     @php
     $number = 0;
@@ -20,7 +26,7 @@
                 <tr>
                     <td>{{ $number += 1 }}</td>
                     <td>{{ $it->product->product_name }}</td>
-                    <td>{{ $it->rate}}</td>
+                    <td>{{ $it->rate }}</td>
                     <td>{{ $it->content }}</td>
                     <td>
                         <a href="{{ route('showOneReview', $it->id) }}">Balas</a>

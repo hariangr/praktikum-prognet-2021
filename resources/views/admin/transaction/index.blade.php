@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('page-title')
+    <div class="jumbotron text-center">
+        <h1>Semua Transaksi</h1>
+    </div>
+@endsection
+
 @section('page-contents')
     @php
     $number = 0;

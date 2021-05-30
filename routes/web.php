@@ -16,6 +16,10 @@ use Illuminate\Http\Request;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
 use Illuminate\Support\Facades\Log;
 use App\Models\Cart;
+use App\Models\Courier;
+use App\Models\Discount;
+use App\Models\Product_categories;
+use App\Models\ProductReview;
 use Illuminate\Notifications\Notification;
 
 /*
@@ -66,8 +70,7 @@ Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
 Route::post('/register/user', [RegisterController::class, 'createUser']);
 
 Route::get('/notification', function () {
-    $user = Auth::user();
-    $notifications = $user->notifications;
+    $notifications = Auth::user()->notifications;
     return view('user.notification.index', compact('notifications'));
 })->middleware('auth:user')->name('notification.index');
 
@@ -140,11 +143,23 @@ Route::prefix('admin')->name('admin.')->group(function () {
         }
     })->name('home');
 
+    Route::get('/notification', function () {
+        $notifications = Auth::user()->notifications;
+        return view('user.notification.index', compact('notifications'));
+    })->middleware(['auth:admin']);
+
     Route::resource('/transaction', 'App\Http\Controllers\Admin\TransactionAdminController')->middleware(['auth:admin']);
 });
 
 Route::get('/admindashboard', function () {
-    return view('dashboard-admin');
+    $transactions = Transaction::all();
+    $products = Product::all();
+    $courier = Courier::all();
+    $categories = Product_categories::all();
+    $discounts = Discount::all();
+    $reviews = ProductReview::all();
+
+    return view('dashboard-admin', compact('transactions', 'products', 'courier', 'categories', 'discounts', 'reviews'));
 })->middleware(['auth:admin'])->name('admindashboard');
 
 
