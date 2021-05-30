@@ -86,7 +86,7 @@ class TransactionController extends Controller
                 "content" => $content,
             ]);
 
-            foreach ($allAdmins as $it ) {
+            foreach ($allAdmins as $it) {
                 $it->notify(new NewReview($it->id));
             }
         }
@@ -128,6 +128,15 @@ class TransactionController extends Controller
     public function show(Transaction $transaction)
     {
         $timeNow = Carbon::now();
+
+        // Log::info($timeNow);
+        // Log::info(new Carbon($transaction->timeout));
+
+        // Log::info($timeNow->greaterThanOrEqualTo() ? "entah" : "wat");
+        if ($timeNow > $transaction->timeout  && $transaction->status == null) {
+            $transaction->status = 'expired';
+            $transaction->save();
+        }
 
         $allowReview = True;
         return view('user.transactions.show', compact('transaction', 'timeNow'));
