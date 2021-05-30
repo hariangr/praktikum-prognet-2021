@@ -24,24 +24,46 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('cart.index') }}">My Cart
-                            @if (Auth::user() != null)
-                                ({{ count($carts) }})
-                            @endif
-                        </a></li>
-                    <li class="nav-item"><a class="nav-link" href="">Notifikasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('transaction.index') }}">Transaksi
-                            @if (Auth::user() != null)
-                                ({{ count($myTrans) }})
-                            @endif
-                        </a></li>
 
-                    @if (Auth::user() != null)
+                    @if (Auth::guard('user')->check())
+                        <li class="nav-item"><a class="nav-link" href="{{ route('cart.index') }}">My Cart
+                                @if (Auth::user() != null)
+                                    ({{ count($carts) }})
+                                @endif
+                            </a></li>
+                        <li class="nav-item"><a class="nav-link" href="">Notifikasi</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('transaction.index') }}">Transaksi
+                                @if (Auth::user() != null)
+                                    ({{ count($myTrans) }})
+                                @endif
+                            </a></li>
+                    @endif
+
+                    @if (Auth::guard('admin')->check())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admindashboard') }}">Dashboard Admin</a>
+                        </li>
+                    @endif
+
+                    @if (Auth::guard('admin')->check())
                         <form id="logoutForm" style="display: inline;" action="{{ route('logout') }}" method="post">
                             @csrf
 
                             <li class="nav-item">
-                                <a class="nav-link" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+                                <a class="nav-link" onclick="document.getElementById('logoutForm').submit();">Logout
+                                    Admin
+                                </a>
+                            </li>
+
+                        </form>
+                    @elseif(Auth::guard('user')->check())
+                        <form id="logoutForm" style="display: inline;" action="{{ route('logout') }}" method="post">
+                            @csrf
+
+                            <li class="nav-item">
+                                <a class="nav-link" onclick="document.getElementById('logoutForm').submit();">Logout
+                                    User
+                                </a>
                             </li>
 
                         </form>

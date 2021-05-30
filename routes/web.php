@@ -121,12 +121,18 @@ Route::prefix('ongkir')->name('ongkir.')->group(function () {
 
 
 
-Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
-        return redirect(route('admindashboard'));
+        if (Auth::guard('admin')->check()) {
+            return redirect(route('admindashboard'));
+        } elseif (Auth::guard('user')->check()) {
+            return "You're not an admin, please logout and login as admin";
+        } else {
+            return redirect('/login/admin');
+        }
     })->name('home');
 
-    Route::resource('/transaction', 'App\Http\Controllers\Admin\TransactionAdminController');
+    Route::resource('/transaction', 'App\Http\Controllers\Admin\TransactionAdminController')->middleware(['auth:admin']);
 });
 
 Route::get('/admindashboard', function () {
