@@ -23,6 +23,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.1/chart.min.js" integrity="sha512-dCMdvmRC8BuFAgdVMPrm5MJauIcozqGY8krxgbXyUhVTvR3vzH0x2qW2nB4jFdeymins2ZubDv7osK1roNBKjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>

@@ -21,6 +21,7 @@ use App\Models\Discount;
 use App\Models\Product_categories;
 use App\Models\ProductReview;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,7 +160,28 @@ Route::get('/admindashboard', function () {
     $discounts = Discount::all();
     $reviews = ProductReview::all();
 
-    return view('dashboard-admin', compact('transactions', 'products', 'courier', 'categories', 'discounts', 'reviews'));
+    $trans_by_month_year = Transaction::all()
+        ->groupBy(function ($val) {
+            // return Carbon::parse($val->created_at)->format('m');
+            return Carbon::parse($val->created_at)->format('m') . ' - ' . Carbon::parse($val->created_at)->format('y');
+        });
+
+    $trans_by_year = Transaction::all()
+        ->groupBy(function ($val) {
+            return Carbon::parse($val->created_at)->format('y');
+        });
+
+    $trans_graph_label = [];
+    $trans_graph_count = [];
+    foreach ($trans_by_month_year->keys() as $it) {
+        array_push($trans_graph_label, $it);
+        array_push($trans_graph_count, count($trans_by_month_year[$it]));
+    }
+
+    $trans_graph_label = json_encode($trans_graph_label);
+    $trans_graph_count = json_encode($trans_graph_count);
+
+    return view('dashboard-admin', compact('trans_graph_label', 'trans_graph_count', 'trans_by_year', 'trans_by_month_year', 'transactions', 'products', 'courier', 'categories', 'discounts', 'reviews'));
 })->middleware(['auth:admin'])->name('admindashboard');
 
 
