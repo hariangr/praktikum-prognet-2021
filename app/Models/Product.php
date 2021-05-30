@@ -16,6 +16,14 @@ class Product extends Model
     {
         return $this->hasMany(Discount::class, 'id_product', 'id')->orderBy('id', 'desc')->limit('1');
     }
+    
+    public function getOneDiscount() {
+        foreach ($this->diskon as $diskon) {
+            if (date('Y-m-d') >= $diskon->start && date('Y-m-d') < $diskon->end) {
+                return $diskon;
+            }
+        }
+    }
 
     public function my_cart()
     {
@@ -25,6 +33,7 @@ class Product extends Model
             ->first();
         return $exist;
     }
+
 
     public function getFirstImage(){
         $image = Product_images::where('product_id', $this->id)->first();

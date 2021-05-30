@@ -13,7 +13,9 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Produk</th>
+                    <th>Harga</th>
                     <th>Qty</th>
+                    <th>Diskon</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -25,7 +27,9 @@
                     <tr>
                         <td>{{ $number += 1 }}</td>
                         <td>{{ $it->product->product_name }}</td>
+                        <td>Rp. {{ $it->product->price }}, -</td>
                         <td>{{ $it->qty }}</td>
+                        <td>{{ $it->product->getOneDiscount() != null ? $it->product->getOneDiscount()->percentage . '%' : 'Tanpa diskon' }}</td>
                         <td>
                             <form method="POST" action="{{ route('cart.reduce') }}">
                                 @csrf

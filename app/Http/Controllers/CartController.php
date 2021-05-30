@@ -39,7 +39,7 @@ class CartController extends Controller
         foreach ($carts as $cart) {
             foreach ($cart->product->diskon as $diskon) {
                 if (date('Y-m-d') >= $diskon->start && date('Y-m-d') < $diskon->end) {
-                    $price = $cart->produk->price - ($diskon->percentage / 100 * $cart->produk->price);
+                    $price = $cart->product->price - ($diskon->percentage / 100 * $cart->product->price);
                     $total += $price * $cart->qty;
                     break;
                 }

@@ -105,7 +105,13 @@
                     <div class="card min-h-100">
                         <div class="card-body">
                             <h2 class="card-title">{{ $it->product_name }}</h2>
-                            <p class="card-text">{{ $it->description }}</p>
+                            <p class="card-text">
+                                {{ $it->description }}
+                            </p>
+                            <p><b>Rp. {{$it->price}}, -</b></p>
+                            @if ($it->getOneDiscount() != null)
+                                Diskon <i>{{$it->getOneDiscount()->percentage}}%</i>
+                            @endif
                         </div>
                         <div class="card-footer">
                             <form method="POST" action="{{ route('cart.buy') }}" style="display: inline;">
