@@ -31,7 +31,10 @@
                                     ({{ count($carts) }})
                                 @endif
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="">Notifikasi</a></li>
+                            
+                        <li class="nav-item"><a class="nav-link" href="{{route('notification.index')}}">Notifikasi
+                                ({{ count($unread) }})</a></li>
+
                         <li class="nav-item"><a class="nav-link" href="{{ route('transaction.index') }}">Transaksi
                                 @if (Auth::user() != null)
                                     ({{ count($myTrans) }})

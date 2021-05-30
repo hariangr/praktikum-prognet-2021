@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
 use Illuminate\Support\Facades\Log;
 use App\Models\Cart;
+use Illuminate\Notifications\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +36,13 @@ Route::get('/', function () {
         $myTrans = Transaction::where('user_id', Auth::user()->id)
             ->orderBy('created_at', 'DESC')
             ->get();
+        $unread = Auth::user()->unreadNotifications;
     } else {
         $carts = [];
         $myTrans = [];
+        $unread = [];
     }
-    return view('index', compact('products', 'carts', 'myTrans'));
+    return view('index', compact('products', 'carts', 'myTrans', 'unread'));
 })->name('welcome');
 
 Auth::routes(['verify' => true]);
@@ -62,6 +65,11 @@ Route::post('/login/user', [LoginController::class, 'userLogin']);
 Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
 Route::post('/register/user', [RegisterController::class, 'createUser']);
 
+Route::get('/notification', function () {
+    $user = Auth::user();
+    $notifications = $user->notifications;
+    return view('user.notification.index', compact('notifications'));
+})->middleware('auth:user')->name('notification.index');
 
 Route::get('/home', function () {
     return redirect(route('dashboard.home'));

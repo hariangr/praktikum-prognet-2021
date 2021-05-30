@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\ProductReview;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -55,8 +56,11 @@ class NewReview extends Notification
      */
     public function toArray($notifiable)
     {
+        $review = ProductReview::find($this->review_id);
+
         return [
             "review_id" => $this->review_id,
+            "review" => $review,
         ];
     }
 }

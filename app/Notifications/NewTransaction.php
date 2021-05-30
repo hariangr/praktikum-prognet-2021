@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -55,8 +56,11 @@ class NewTransaction extends Notification
      */
     public function toArray($notifiable)
     {
+        $trans = Transaction::find($this->transaction_id);
+
         return [
-            "transaction_id" => $this->transaction_id
+            "transaction_id" => $this->transaction_id,
+            "trans" => $trans,
         ];
     }
 }
