@@ -57,7 +57,7 @@
   </div>
 
   <div class="form-group">
-    <label for="nama">Berat Produk (Kg):</label>
+    <label for="nama">Berat Produk (Gram):</label>
     <input type="number" class="form-control" id="weight"value="{{$product->weight}}"  placeholder="Masukkan Berat Produk" name="weight" required>
   </div>
 

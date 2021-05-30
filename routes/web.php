@@ -90,7 +90,26 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth:user'])->group
 
 
 Route::prefix('cart')->name('cart.')->middleware(['auth:user'])->group(function () {
-
+    Route::post('/buy', function (Request $request) {
+        $exist = Cart::where('user_id', Auth::user()->id)
+            ->where('product_id', $request['product_id'])
+            ->where('status', 'notyet')
+            ->first();
+        if ($exist != null) {
+            // Sudah ada, tambahkan qty
+            $exist['qty'] = $exist['qty'] + 1;
+            $exist->save();
+        } else {
+            $cart = Cart::create([
+                "user_id" => Auth::user()->id,
+                "product_id" => $request['product_id'],
+                "qty" => 1,
+                "status" => 'notyet',
+            ]);
+            $cart->save();
+        }
+        return redirect('/cart/mine');
+    })->name('buy');
     Route::get('/mine', [CartController::class, 'index'])->name('index');
     Route::post('/add', [CartController::class, 'store'])->name('store');
     Route::post('/reduce', [CartController::class, 'reduce'])->name('reduce');

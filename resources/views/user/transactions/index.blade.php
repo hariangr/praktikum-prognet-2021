@@ -1,11 +1,16 @@
 @extends('layout')
 
+@section('page-title')
+    <div class="jumbotron text-center">
+        <h1>Daftar Transaksi</h1>
+    </div>
+@endsection
+
 @section('page-contents')
     @php
     $number = 0;
     @endphp
 
-    <h1>Menunggu Pembayaran</h1>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -32,11 +37,4 @@
             @endforeach
         </tbody>
     </table>
-
-    <h2>Diproses Penjual</h2>
-
-    <h2>Selesai</h2>
-
-    <h2>Gagal</h2>
-
 @endsection

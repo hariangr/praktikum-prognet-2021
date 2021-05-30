@@ -31,8 +31,8 @@
                                     ({{ count($carts) }})
                                 @endif
                             </a></li>
-                            
-                        <li class="nav-item"><a class="nav-link" href="{{route('notification.index')}}">Notifikasi
+
+                        <li class="nav-item"><a class="nav-link" href="{{ route('notification.index') }}">Notifikasi
                                 ({{ count($unread) }})</a></li>
 
                         <li class="nav-item"><a class="nav-link" href="{{ route('transaction.index') }}">Transaksi
@@ -108,7 +108,11 @@
                             <p class="card-text">{{ $it->description }}</p>
                         </div>
                         <div class="card-footer">
-                            <a class="btn btn-primary " href="#!">Buy</a>
+                            <form method="POST" action="{{ route('cart.buy') }}" style="display: inline;">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $it->id }}">
+                                <button class="btn btn-primary ">Beli</button>
+                            </form>
 
                             <form style="display: inline;" action="{{ route('cart.store') }}" method="post">
                                 @csrf

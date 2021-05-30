@@ -1,7 +1,13 @@
 @extends('layout')
 
+@section('page-title')
+    <div class="jumbotron text-center">
+        <h1>Detail Transaksi</h1>
+    </div>
+@endsection
+
 @php
-     $number = 0;
+$number = 0;
 @endphp
 
 @section('page-contents')
@@ -48,16 +54,15 @@
             @else
                 <form enctype="multipart/form-data" action="{{ route('addPayment') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="idTransaksi" value="{{ $transaction->id }}">
-                    <input type="file" class="form-control" placeholder="Upload bukti pembayaran" name="bukti[]" required
-                        accept="image/*">
+                    <input class="form-control" type="hidden" name="idTransaksi" value="{{ $transaction->id }}">
+                    <input class="form-control" type="file" class="form-control" placeholder="Upload bukti pembayaran"
+                        name="bukti[]" required accept="image/*">
 
-                    <button>Upload</button>
+                    <button class="btn btn-primary" style="margin-top: 2rem;">Upload</button>
                 </form>
             @endif
 
         @endif
-        {!! $transaction->timeout !!}
         <script defer>
             const countdownEl = document.getElementById("timerLeft")
             var countDownDate = moment("{!! $transaction->timeout !!}")
@@ -95,24 +100,23 @@
             <div>
                 <label for="newRating">
                     Rating
-                    <select name="newRating" id="newRating">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
-                        @endfor
-                    </select>
                 </label>
+                <select class="form-control" name="newRating" id="newRating">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
+                </select>
             </div>
 
             <div>
                 <label for="">
                     Ulasan
-
-                    <textarea name="content" id="" cols="30" rows="10"></textarea>
                 </label>
+                <textarea class="form-control" name="content" id="" cols="30" rows="10"></textarea>
             </div>
 
-            <div>
-                <Button>Beri Ulasan</Button>
+            <div style="margin-top: 1rem;">
+                <Button class="btn btn-primary">Beri Ulasan</Button>
             </div>
         </form>
     @endif

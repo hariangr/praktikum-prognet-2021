@@ -50,20 +50,20 @@
 
             <label for="status_update">
                 Ubah Status
-                <select name="status_update" id="status_update">
-                    <option value="unverified" {{ $transaction->status == 'unverified' ? 'selected' : '' }}>unverified
-                    </option>
-                    <option value="verified" {{ $transaction->status == 'verified' ? 'selected' : '' }}>verified</option>
-                    <option value="delivered" {{ $transaction->status == 'delivered' ? 'selected' : '' }}>delivered
-                    </option>
-                    <option value="success" {{ $transaction->status == 'success' ? 'selected' : '' }}>success</option>
-                    <option value="expired" {{ $transaction->status == 'expired' ? 'selected' : '' }}>expired</option>
-                    <option value="canceled" {{ $transaction->status == 'canceled' ? 'selected' : '' }}>canceled</option>
-                </select>
             </label>
+            <select class="form-control" name="status_update" id="status_update">
+                <option value="unverified" {{ $transaction->status == 'unverified' ? 'selected' : '' }}>unverified
+                </option>
+                <option value="verified" {{ $transaction->status == 'verified' ? 'selected' : '' }}>verified</option>
+                <option value="delivered" {{ $transaction->status == 'delivered' ? 'selected' : '' }}>delivered
+                </option>
+                <option value="success" {{ $transaction->status == 'success' ? 'selected' : '' }}>success</option>
+                <option value="expired" {{ $transaction->status == 'expired' ? 'selected' : '' }}>expired</option>
+                <option value="canceled" {{ $transaction->status == 'canceled' ? 'selected' : '' }}>canceled</option>
+            </select>
 
             <div>
-                <button class="btn btn-primary">Update</button>
+                <button  style="margin-top: 1rem;"  class="btn btn-primary">Update</button>
             </div>
         </form>
         <div style="padding-top: 2rem;">

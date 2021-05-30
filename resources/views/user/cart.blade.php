@@ -96,9 +96,9 @@
 
             <h2>Detail Belanja</h2>
             <div class="form-group">
-                <p>Harga barang: {{ $total }}</p>
+                <p>Harga barang: <b>Rp. {{ $total }}, -</b></p>
                 <input type="hidden" name="total" value="{{ $total }}">
-                <p>Berat total: {{ $berat_total }}</p>
+                <p>Berat total: <b>{{ $berat_total }} gram</b></p>
                 <input type="hidden" name="weight" value="{{ $berat_total }}">
             </div>
 
