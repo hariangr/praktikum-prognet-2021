@@ -82,6 +82,32 @@ class CartController extends Controller
         return back();
     }
 
+    public function reduce(Request $request)
+    {
+        $exist = Cart::where('user_id', Auth::user()->id)
+            ->where('product_id', $request['product_id'])
+            ->where('status', 'notyet')
+            ->first();
+        if ($exist != null) {
+            // Sudah ada, tambahkan qty
+            if ($exist['qty'] - 1 > 0) {
+                $exist['qty'] = $exist['qty'] - 1;
+                $exist->save();
+            } else {
+                Cart::destroy($exist->id);
+            }
+        } else {
+            $cart = Cart::create([
+                "user_id" => Auth::user()->id,
+                "product_id" => $request['product_id'],
+                "qty" => 1,
+                "status" => 'notyet',
+            ]);
+            $cart->save();
+        }
+        return back();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

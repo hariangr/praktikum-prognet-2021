@@ -93,6 +93,7 @@ Route::prefix('cart')->name('cart.')->middleware(['auth:user'])->group(function 
 
     Route::get('/mine', [CartController::class, 'index'])->name('index');
     Route::post('/add', [CartController::class, 'store'])->name('store');
+    Route::post('/reduce', [CartController::class, 'reduce'])->name('reduce');
     Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 });
 

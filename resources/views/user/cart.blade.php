@@ -1,76 +1,108 @@
 @extends('layout')
 
+@section('page-title')
+    <div class="jumbotron text-center">
+        <h1>Keranjang Belanja</h1>
+    </div>
+@endsection
+
 @section('page-contents')
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Produk</th>
+                    <th>Qty</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $number = 0;
+                @endphp
+                @foreach ($carts as $it)
+                    <tr>
+                        <td>{{ $number += 1 }}</td>
+                        <td>{{ $it->product->product_name }}</td>
+                        <td>{{ $it->qty }}</td>
+                        <td>
+                            <form method="POST" action="{{ route('cart.reduce') }}">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $it->product->id }}">
+                                <button class="btn btn-outline-primary">Qty -</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
     <div>
         <form action="{{ route('cart.checkout') }}" method="post">
             @csrf
 
-            <h2>Isi Keranjang Belanja</h2>
-            @foreach ($carts as $it)
-                <div>
-                    {{ $it->product->product_name }} //
-                    qty: {{ $it->qty }}
-                </div>
-            @endforeach
-
             <h2>Check Out Produk</h2>
-            <div>
+            <div class="form-group">
                 <label for="address">
                     Alamat
-                    <input type="text" name="address" id="address" required>
                 </label>
+                <input class="form-control" type="text" name="address" id="address" required>
             </div>
 
-            <div>
+            <div class="form-group">
                 <label>
                     Provinsi
-                    <select name="province" id="province">
-                        <option selected disabled>Pilih Provinsi</option>
-
-                        @foreach ($provinces as $it)
-                            <option value="{{ $it->province_id }}">{{ $it->name }}</option>
-                        @endforeach
-                    </select>
                 </label>
+                <select class="form-control" name="province" id="province">
+                    <option selected disabled>Pilih Provinsi</option>
+
+                    @foreach ($provinces as $it)
+                        <option value="{{ $it->province_id }}">{{ $it->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
 
-            <div>
+            <div class="form-group">
                 <label>
                     Kota
-                    <select name="cities" id="cities">
-                        <option disabled>Pilih Kota</option>
-                    </select>
                 </label>
+                <select class="form-control" name="cities" id="cities">
+                    <option disabled>Pilih Kota</option>
+                </select>
             </div>
 
 
-            <div>
+            <div class="form-group">
                 <label>
                     Kurir
-                    <select name="courier" id="courier">
-                        @foreach ($courier as $it)
-                            <option value="{{ $it->courier }}">{{ $it->courier }}</option>
-                        @endforeach
-                    </select>
                 </label>
+                <select class="form-control" name="courier" id="courier">
+                    @foreach ($courier as $it)
+                        <option value="{{ $it->courier }}">{{ $it->courier }}</option>
+                    @endforeach
+                </select>
             </div>
 
 
-            <div>
-                <select name="courier_service" id="courier_service">
+            <div class="form-group">
+                <label for="">Layanan Pengiriman</label>
+                <select class="form-control" name="courier_service" id="courier_service">
                     <option disabled>Pilih Pengiriman</option>
                 </select>
             </div>
 
-            <div>
+            <h2>Detail Belanja</h2>
+            <div class="form-group">
                 <p>Harga barang: {{ $total }}</p>
                 <input type="hidden" name="total" value="{{ $total }}">
                 <p>Berat total: {{ $berat_total }}</p>
                 <input type="hidden" name="weight" value="{{ $berat_total }}">
             </div>
 
-            <button disabled id="checkoutBtn">Checkout</button>
+            <button disabled class="btn btn-primary" id="checkoutBtn">Checkout</button>
         </form>
 
         <script>
@@ -97,7 +129,9 @@
                     }
                 })
 
-                console.log({harga});
+                console.log({
+                    harga
+                });
 
                 if (harga.length == 0) {
                     ongkirEl.innerText = "Tidak tersedia";
