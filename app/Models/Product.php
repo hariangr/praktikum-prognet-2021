@@ -25,4 +25,16 @@ class Product extends Model
             ->first();
         return $exist;
     }
+
+    public function getFirstImage(){
+        $image = Product_images::where('product_id', $this->id)->first();
+        return $image;
+    }
+    public function images(){
+        return $this->hasMany(Product_images::class,'product_id','id');
+    }
+
+    public function categories(){
+        return $this->belongsToMany(Product_categories::class,'product_category_details','product_id','category_id');
+    }
 }

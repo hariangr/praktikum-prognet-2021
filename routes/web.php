@@ -29,8 +29,18 @@ use App\Models\Cart;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $products = Product::all();
+    if (Auth::user() != null) {
+        $carts = Cart::where('user_id', Auth::user()->id)->where('status', 'notyet')->get();
+        $myTrans = Transaction::where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+    } else {
+        $carts = [];
+        $myTrans = [];
+    }
+    return view('index', compact('products', 'carts', 'myTrans'));
+})->name('welcome');
 
 Auth::routes(['verify' => true]);
 
@@ -59,9 +69,10 @@ Route::get('/home', function () {
 Route::prefix('dashboard')->name('dashboard.')->middleware(['auth:user'])->group(function () {
 
     Route::get('/', function (Request $request) {
-        $products = Product::all();
-        $myCart = Cart::where('user_id', Auth::user()->id)->where('status', 'notyet')->get();
-        return view('home', compact('products', 'myCart'));
+        return redirect(route('welcome'));
+        // $products = Product::all();
+        // $myCart = Cart::where('user_id', Auth::user()->id)->where('status', 'notyet')->get();
+        // return view('home', compact('products', 'myCart'));
     })->name('home');
 });
 
