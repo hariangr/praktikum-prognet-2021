@@ -6,7 +6,7 @@
 
 <div class="jumbotron text-center">
   <h1>Admin Discount</h1>
-  <h2>Tambah Tambah Discount</h2> 
+  <h2>Tambah Discount</h2> 
 </div>
 
 @endsection
@@ -39,7 +39,7 @@
     <p><button type="submit" class="btn btn-success">Submit</button></p>
 </form> 
 
-<button type="button" class="btn btn-primary" onclick="location.href='/admincourier'">Kembali</button>
+<button type="button" class="btn btn-primary" onclick="location.href='/admindiscount'">Kembali</button>
 
 
 <script>
