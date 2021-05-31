@@ -65,8 +65,8 @@ class UserStatusTransactionChanged extends Notification
         return [
             "transaction_id" => $this->transaction_id,
             "transaction" => $trans,
-            "old_status" => $this->old_status,
-            "new_status" => $this->new_status
+            "old_status" => $this->old_status ?? 'Tanpa Status',
+            "new_status" => $this->new_status ?? 'Tanpa Status',
         ];
     }
 }
