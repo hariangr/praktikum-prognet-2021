@@ -1,36 +1,14 @@
 @extends('layout')
 
-@section('page-navbar')
-
 @section('page-title')
-
-
-    <style>
-    .head {
-    margin-top : 30px;
-    margin-bottom : 30px;
-    }
-    </style>
-
-    <style>
-    .heading {
-    background-image : url("image/cartbg.jpg");
-    }
-    </style>
-    <div>
-        <div class="jumbotron text-center bg-dark text-white">
-            <h1>Keranjang Belanja</h1>
-        </div>
+    <div class="jumbotron text-center">
+        <h1>Keranjang Belanja</h1>
     </div>
-
 @endsection
 
 @section('page-contents')
-
-
-
-    <div class="head">
-        <table class="table table-bordered">
+    <div>
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>No</th>
@@ -119,15 +97,13 @@
                     <option disabled>Pilih Pengiriman</option>
                 </select>
             </div>
-            
-            <div class="head">            
-                <h2>Detail Belanja</h2>
-                <div class="head">
-                    <p>Harga barang: <b>Rp. {{ $total }}, -</b></p>
-                    <input type="hidden" name="total" value="{{ $total }}">
-                    <p>Berat total: <b>{{ $berat_total }} gram</b></p>
-                    <input type="hidden" name="weight" value="{{ $berat_total }}">
-                </div>
+
+            <h2>Detail Belanja</h2>
+            <div class="form-group">
+                <p>Harga barang: <b>Rp. {{ $total }}, -</b></p>
+                <input type="hidden" name="total" value="{{ $total }}">
+                <p>Berat total: <b>{{ $berat_total }} gram</b></p>
+                <input type="hidden" name="weight" value="{{ $berat_total }}">
             </div>
 
             <button disabled class="btn btn-primary" id="checkoutBtn">Checkout</button>

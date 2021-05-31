@@ -1,19 +1,9 @@
 @extends('layout')
 
 @section('page-title')
-
-    <style>
-    .head {
-    margin-top : 30px;
-    margin-bottom : 30px;
-    }
-    </style>
-
-        <div class="jumbotron text-center bg-dark text-white">
-            <h1>Daftar Transaksi</h1>
-        </div>
-
-
+    <div class="jumbotron text-center">
+        <h1>Daftar Transaksi</h1>
+    </div>
 @endsection
 
 @section('page-contents')
@@ -21,7 +11,7 @@
     $number = 0;
     @endphp
 
-    <table class="table table-bordered">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>No</th>
