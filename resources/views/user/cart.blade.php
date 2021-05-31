@@ -85,7 +85,7 @@
                 </label>
                 <select class="form-control" name="courier" id="courier">
                     @foreach ($courier as $it)
-                        <option value="{{ $it->courier }}">{{ $it->courier }}</option>
+                        <option value="{{ $it->courier }}">{{ strtoupper($it->courier) }}</option>
                     @endforeach
                 </select>
             </div>
