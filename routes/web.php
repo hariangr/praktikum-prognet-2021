@@ -183,8 +183,10 @@ Route::get('/admindashboard', function () {
     $trans_by_month_year = Transaction::all()
         ->groupBy(function ($val) {
             // return Carbon::parse($val->created_at)->format('m');
-            return Carbon::parse($val->created_at)->format('m') . ' - ' . Carbon::parse($val->created_at)->format('y');
+            return '20' . Carbon::parse($val->created_at)->format('y') . ' ' . Carbon::parse($val->created_at)->format('m');
         });
+
+    // Log::info($trans_by_month_year);
 
     $trans_by_year = Transaction::all()
         ->groupBy(function ($val) {
@@ -193,7 +195,7 @@ Route::get('/admindashboard', function () {
 
     $trans_graph_label = [];
     $trans_graph_count = [];
-    foreach ($trans_by_month_year->keys() as $it) {
+    foreach ($trans_by_month_year->keys()->sort() as $it) {
         array_push($trans_graph_label, $it);
         array_push($trans_graph_count, count($trans_by_month_year[$it]));
     }
