@@ -101,7 +101,7 @@
         <div class="row gx-4 gx-lg-5">
             @foreach ($products as $it)
                 <div class="col-md-4 mb-5">
-                    <img class="card-img-top" src="/img/{{ $it->getFirstImage()->image_name }}" alt="Card image cap">
+                    <img class="card-img-top" src="/img/{{ $it->getFirstImage()->image_name ?? '' }}" alt="Card image cap">
                     <div class="card min-h-100">
                         <div class="card-body">
                             <h2 class="card-title">{{ $it->product_name }}</h2>
