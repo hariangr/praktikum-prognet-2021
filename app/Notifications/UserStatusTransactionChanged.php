@@ -23,8 +23,8 @@ class UserStatusTransactionChanged extends Notification
     public function __construct($_transaction_id, $_old_status, $_new_status)
     {
         $this->transaction_id = $_transaction_id;
-        $this->old_status = $_old_status;
-        $this->new_status = $_new_status;
+        $this->old_status = $_old_status ?? 'Tanpa Status';
+        $this->new_status = $_new_status ?? 'Tanpa Status';
     }
 
     /**
@@ -65,8 +65,8 @@ class UserStatusTransactionChanged extends Notification
         return [
             "transaction_id" => $this->transaction_id,
             "transaction" => $trans,
-            "old_status" => $this->old_status ?? 'Tanpa Status',
-            "new_status" => $this->new_status ?? 'Tanpa Status',
+            "old_status" => $this->old_status ,
+            "new_status" => $this->new_status ,
         ];
     }
 }
