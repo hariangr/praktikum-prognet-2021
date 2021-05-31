@@ -63,7 +63,7 @@
 
   @foreach($product_images as $i=>$pi)
   <div class="form-group">
-    <input type="number" class="form-control" id="img{{$i}}"value="{{$pi->id}}" name="img{{$i}}" required>
+    <input type="number" class="form-control" id="img{{$i}}"value="{{$pi->id}}" name="img{{$i}}" hidden>
   </div>
   @endforeach
 
