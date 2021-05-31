@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\discount;
+use App\Models\Discount;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        $discount = discount::all();
+        $discount = Discount::all();
         return view ("discount-list",compact(['discount']));
     }
 
@@ -38,7 +38,7 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
-        $discount = new discount;
+        $discount = new Discount;
         $discount->id_product = $request->id_product;
         $discount->percentage = $request->percentage;
         $discount->start = $request->start;
@@ -54,7 +54,7 @@ class DiscountController extends Controller
      * @param  \App\Models\discount  $discount
      * @return \Illuminate\Http\Response
      */
-    public function show(discount $admindiscount)
+    public function show(Discount $admindiscount)
     {
         $product = Product::all();
         $discount = $admindiscount;
@@ -67,7 +67,7 @@ class DiscountController extends Controller
      * @param  \App\Models\discount  $discount
      * @return \Illuminate\Http\Response
      */
-    public function edit(discount $admindiscount)
+    public function edit(Discount $admindiscount)
     {
         $product = Product::all();
         $discount = $admindiscount;
@@ -81,7 +81,7 @@ class DiscountController extends Controller
      * @param  \App\Models\discount  $discount
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, discount $admindiscount)
+    public function update(Request $request, Discount $admindiscount)
     {
         $discount = $admindiscount;
         $discount->id_product = $request->id_product;
