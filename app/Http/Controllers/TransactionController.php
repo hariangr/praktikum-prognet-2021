@@ -58,11 +58,19 @@ class TransactionController extends Controller
 
         // Way too hacky
         $pembeli = User::where('id', $trans->user_id)->first();
-        $pembeli->notify(new UserStatusTransactionChanged($trans->id, $trans->status, 'unverified'));
+        try {
+            $pembeli->notify(new UserStatusTransactionChanged($trans->id, $trans->status, 'unverified'));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         $allAdmins = Admin::all();
         foreach ($allAdmins as $it) {
-            $it->notify(new PaymentUploaded($trans->id));
+            try {
+                $it->notify(new PaymentUploaded($trans->id));
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
 
         return back();
@@ -87,7 +95,11 @@ class TransactionController extends Controller
             ]);
 
             foreach ($allAdmins as $it) {
-                $it->notify(new NewReview($it->id));
+                try {
+                    $it->notify(new NewReview($it->id));
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
             }
         }
 

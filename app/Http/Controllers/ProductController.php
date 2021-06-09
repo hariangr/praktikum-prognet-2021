@@ -57,7 +57,11 @@ class ProductController extends Controller
         ]);
 
         $user = User::where('id', $review->user_id)->first();
-        $user->notify(new AdminResponseToReview($request['content'], $review->id, $request['content']));
+        try {
+            $user->notify(new AdminResponseToReview($request['content'], $review->id, $request['content']));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         return back();
     }

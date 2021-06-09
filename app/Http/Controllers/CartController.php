@@ -193,7 +193,11 @@ class CartController extends Controller
 
         $allAdmins = Admin::all();
         foreach ($allAdmins as $it) {
-            $it->notify(new NewTransaction($new_trans->id));
+            try {
+                $it->notify(new NewTransaction($new_trans->id));
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
 
         return redirect(route('transaction.show', $new_trans->id));

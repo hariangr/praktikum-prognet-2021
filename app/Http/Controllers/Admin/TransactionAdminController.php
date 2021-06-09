@@ -77,7 +77,11 @@ class TransactionAdminController extends Controller
         $new_status = $request['status_update'];
 
         $pembeli = User::find($transaction['user_id']);
-        $pembeli->notify(new UserStatusTransactionChanged($transaction->id, $transaction->status, $new_status));
+        try {
+            $pembeli->notify(new UserStatusTransactionChanged($transaction->id, $transaction->status, $new_status));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         $transaction['status'] = $new_status;
         $transaction->save();
