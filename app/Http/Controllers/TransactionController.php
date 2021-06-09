@@ -26,6 +26,14 @@ class TransactionController extends Controller
         $myTrans = Transaction::where('user_id', Auth::user()->id)
             ->orderBy('created_at', 'DESC')
             ->get();
+
+        $timeNow = Carbon::now();
+        foreach ($myTrans as $it) {
+            if ($timeNow > $it->timeout  && $it->status == null) {
+                $it->status = 'expired';
+                $it->save();
+            }
+        }
         // $waitingVerifications = Transaction::where('user_id', Auth::user()->id)
         //     ->whereIn('status', ['unverified', 'null'])
         //     ->get();
@@ -106,6 +114,17 @@ class TransactionController extends Controller
         $trans['status'] = 'success';
         $trans->save();
 
+
+        return back();
+    }
+
+    public function cancelTrans(Request $request)
+    {
+        $trans_id = $request['trans_id'];
+        $trans = Transaction::where('id', $trans_id)->first();
+
+        $trans['status'] = 'canceled';
+        $trans->save();
 
         return back();
     }

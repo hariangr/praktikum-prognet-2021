@@ -82,8 +82,8 @@
     <div class="container px-4 px-lg-5">
         <!-- Heading Row-->
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
-            <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0"
-                    src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div>
+            {{-- <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0"
+                    src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div> --}}
             <div class="col-lg-5">
                 <h1 class="font-weight-light">Prognet</h1>
                 <p>Sebuah website untuk praktikum Pemrograman Internet</p>
@@ -101,7 +101,10 @@
         <div class="row gx-4 gx-lg-5">
             @foreach ($products as $it)
                 <div class="col-md-4 mb-5">
-                    <img class="card-img-top" src="/img/{{ $it->getFirstImage()->image_name ?? '' }}" alt="Card image cap">
+                    @if ($it->getFirstImage())
+                        <img class="card-img-top" src="/img/{{ $it->getFirstImage()->image_name ?? '' }}" alt="Card image cap">
+                    @endif
+                    
                     <div class="card min-h-100">
                         <div class="card-body">
                             <h2 class="card-title">{{ $it->product_name }}</h2>

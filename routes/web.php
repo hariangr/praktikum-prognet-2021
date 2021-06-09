@@ -119,6 +119,7 @@ Route::prefix('cart')->name('cart.')->middleware(['auth:user'])->group(function 
 
 Route::post('/transaction/uploadpayment', [TransactionController::class, 'addPayment'])->name('addPayment');
 Route::post('/transaction/addRating', [TransactionController::class, 'addRating'])->name('addRating');
+Route::post('/transaction/cancelTrans', [TransactionController::class, 'cancelTrans'])->name('cancelTrans');
 Route::resource('transaction', TransactionController::class)
     ->only('index', 'show')
     ->middleware(['auth:user']);

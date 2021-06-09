@@ -92,6 +92,17 @@ $number = 0;
     @endif
 
 
+    @if ($transaction->status == null)
+        <form action="{{ route('cancelTrans') }}" method="POST">
+            @csrf
+            <input type="hidden" name="trans_id" value="{{ $transaction->id }}">
+
+            <div style="margin-top: 1rem;">
+                <Button class="btn btn-danger">Batalkan Transaksi</Button>
+            </div>
+        </form>
+    @endif
+
     @if ($transaction->status == 'delivered')
         <form action="{{ route('addRating') }}" method="POST">
             @csrf
