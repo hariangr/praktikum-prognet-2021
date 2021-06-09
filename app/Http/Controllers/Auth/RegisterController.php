@@ -83,11 +83,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return $user;
     }
 
     /**
@@ -98,11 +105,16 @@ class RegisterController extends Controller
     protected function createAdmin(Request $request)
     {
         $this->validator($request->all())->validate();
-        Admin::create([
+        $admin = Admin::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        try {
+            $admin->sendEmailVerificationNotification();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         return redirect()->intended('login/admin');
     }
 
@@ -114,13 +126,18 @@ class RegisterController extends Controller
     protected function createUser(Request $request)
     {
         $this->validator($request->all())->validate();
-        User::create([
+        $user =  User::create([
             'name' => $request->name,
             'email' => $request->email,
             'profile_image' => "/img/defaultavatar.png",
             'status' => '0',
             'password' => Hash::make($request->password),
         ]);
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         return redirect()->intended('login/user');
     }
 }
